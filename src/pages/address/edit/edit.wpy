@@ -1,0 +1,84 @@
+<style lang="less">
+.container{
+    height: 100%;
+    background: #eee;
+}
+form{
+  background: #fff;
+  display: block;
+}
+.address_header{
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+.address_name{
+    margin-left: 20px;
+    font-size: 12px;
+    border-bottom: #eee 1px solid;
+}
+.address_name input{
+ height: 50px;
+}
+.address_name textarea{
+ height: 80px;
+ margin-top: 10px;
+}
+.address_name_placeholder{
+     color: #999;
+}
+</style>
+<template>
+  <view class="container">
+     <form>
+      <view class="address_name">
+        <input placeholder="收货人姓名" placeholder-class="address_name_placeholder" focus />
+      </view>
+      <view class="address_name">
+        <input placeholder="收货人手机号" placeholder-class="address_name_placeholder" type="number" />
+      </view>
+       <view class="address_name">
+        <input placeholder="分院名称" placeholder-class="address_name_placeholder" />
+      </view>
+       <view class="address_name">
+        <input placeholder="院系(专业)" placeholder-class="address_name_placeholder"/>
+       </view>
+        <view class="address_name">
+        <textarea  placeholder="具体地址" placeholder-class="address_name_placeholder"/>
+       </view>
+       <van-button size="large" @tap="save">保存</van-button>
+     </form>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Toast from 'wepy-com-toast'
+
+  @connect({
+    num (state) {
+      return state.counter.num
+    },
+    asyncNum (state) {
+      return state.counter.asyncNum
+    },
+    sumNum (state) {
+      return state.counter.num + state.counter.asyncNum
+    }
+  })
+
+  export default class AddressEdit extends wepy.page {
+    config = {
+       "usingComponents": {
+         "van-button": "/miniprogram_npm/vant-weapp/button/index"
+      }
+    }
+    methods={
+        save(){
+            wepy.navigateBack()
+        }
+    }
+  
+  }
+</script>

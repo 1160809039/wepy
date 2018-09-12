@@ -1,0 +1,137 @@
+<style lang="less">
+.container{
+  height: 100%;
+  background: #eee
+}
+form{
+  background: #fff;
+  display: block;
+  font-size:12px;
+}
+ .publish_name{
+   margin-left: 20px;
+   padding: 5px 0;
+   font-size: 12px;
+   border-bottom: 1px #eee solid;
+ }
+ .publish_name_placeholder{
+   color: #999;
+ }
+ .publish_name input{
+   height: 40px;
+ }
+ .publish_num{
+    margin-left: 20px;
+   align-items: center;
+   font-size: 12px;
+   border-bottom: 1px #eee solid;
+   display: flex;
+   height: 50px;
+   justify-content: space-between;
+ }
+ .publish_num_input{
+   display: flex;
+   align-items: center;
+   width: 60px;
+   padding-right: 15px;
+   color: #999;
+ }
+.separator_line{
+  height: 10px;
+  background: #eee;
+}
+.publish_place{
+  height: 50px;
+  line-height: 50px;
+  margin-left: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 15px;
+   
+}
+.publish_place_value{
+  color: #999;
+}
+</style>
+<template>
+  <view class="container">
+   <form>
+     <view class="publish_name">
+        <input placeholder="请输入快递名称" placeholder-class="publish_name_placeholder" focus/>
+     </view>
+      <view class="publish_num">
+       <span>代拿价格</span>  
+         <view class="publish_num_input"> 
+          <input type="number" value="1" /> RMB
+         </view> 
+      </view>
+      <view class="publish_num">
+        <span>快递重量</span> 
+         <view class="publish_num_input"> 
+          <input type="number" value="1" /> KG
+         </view> 
+      </view>
+       
+
+       <view class="separator_line">
+       </view>
+
+       <view class="publish_place" @tap="toAdressList">
+         <view >
+           收货地址
+           <span class="fa fa-map-marker"></span>  
+         </view>
+         <view class="publish_place_value">
+           计算机专业 15栋407寝室
+         </view>
+       </view>
+
+       <view class="separator_line">
+       </view>
+
+       <view class="publish_name">
+        <input placeholder="请输入收货人名字" placeholder-class="publish_name_placeholder" />
+       </view>
+
+        <view class="publish_name">
+         <input placeholder="请输入收货人手机号" type="number"  placeholder-class="publish_name_placeholder" />
+        </view>
+<van-button size="large">保存</van-button>
+    
+   </form>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Toast from 'wepy-com-toast'
+
+  @connect({
+    num (state) {
+      return state.counter.num
+    },
+    asyncNum (state) {
+      return state.counter.asyncNum
+    },
+    sumNum (state) {
+      return state.counter.num + state.counter.asyncNum
+    }
+  })
+
+  export default class MinePublish extends wepy.page {
+    config = {
+      "usingComponents": {
+         "van-button": "/miniprogram_npm/vant-weapp/button/index"
+      }
+    }
+    methods={
+      
+       toAdressList(){
+          wepy.navigateTo({
+            url:'/pages/address/list/list'
+          })
+       }
+    }
+  }
+</script>

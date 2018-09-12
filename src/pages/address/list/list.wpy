@@ -1,0 +1,55 @@
+<style lang="less">
+.container{
+    height: 100%;
+    background: #eee;
+}
+.address_header{
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: #ffffff;
+    font-size: 12px;
+    position: relative;
+}
+.address_header navigator{
+    position: absolute;
+    right: 20px;
+    width: 50px;
+    top:0;
+}
+</style>
+<template>
+  <view class="container">
+   <view class="address_header">
+       我的收货地址
+       <navigator url="/pages/address/edit/edit" hover-class="none" open-type="navigate">添加地址</navigator>
+   </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Toast from 'wepy-com-toast'
+
+  @connect({
+    num (state) {
+      return state.counter.num
+    },
+    asyncNum (state) {
+      return state.counter.asyncNum
+    },
+    sumNum (state) {
+      return state.counter.num + state.counter.asyncNum
+    }
+  })
+
+  export default class AddressList extends wepy.page {
+    config = {
+    
+    
+      
+    }
+  
+  }
+</script>

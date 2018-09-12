@@ -1,0 +1,81 @@
+<style lang="less">
+.container{
+    height: 100%;
+    background: #fff;
+}
+.school_title{
+   height: 40px;
+   font-size: 15px;
+   line-height: 40px;
+   padding-left: 20px;
+}
+</style>
+<template>
+  <view class="container">
+
+      <view class="school_title">
+          选择学校
+      </view>    
+       <van-tree-select
+      items="{{ items }}"
+       main-active-index="{{ mainActiveIndex }}"
+       maxHeight="500"
+       active-id="{{ activeId }}"
+       bind:click-nav="onClickNav"
+       bind:click-item="onClickItem"
+    />
+    
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Toast from 'wepy-com-toast'
+  import data from '../../config/schooldata'
+
+  @connect({
+    num (state) {
+      return state.counter.num
+    },
+    asyncNum (state) {
+      return state.counter.asyncNum
+    },
+    sumNum (state) {
+      return state.counter.num + state.counter.asyncNum
+    }
+  })
+
+  export default class School extends wepy.page {
+    config = {
+    "usingComponents": {
+         "van-tree-select": "/miniprogram_npm/vant-weapp/tree-select/index"
+     }
+    
+      
+    }
+    methods={
+         onClickNav({ detail = {} }) {
+    this.setData({
+      mainActiveIndex: detail.index || 0
+    });
+  },
+
+  onClickItem({ detail = {} }) {
+    this.setData({
+      activeId: detail.id
+    });
+  }
+    }
+
+
+    onLoad(){
+        this.items=data.schooldata;
+     }
+
+    data={
+        items:[]
+    }
+  
+  }
+</script>

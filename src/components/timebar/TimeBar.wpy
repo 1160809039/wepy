@@ -1,0 +1,28 @@
+<style type="less">
+   .timebar_wrapper{
+       font-size: 13px;
+       padding: 15px 0;
+       text-align: center;
+       color: #999;
+   }
+   .timebar_wrapper Text{
+       margin-left: 15px
+   }
+</style>
+
+<template>
+    <view class="timebar_wrapper">
+     {{timedata}}  
+    </view>
+</template>
+
+
+<script>
+import wepy from 'wepy'
+export default  class TimeBar extends wepy.component{
+  props = {
+      timedata:String
+  }
+}
+</script>
+

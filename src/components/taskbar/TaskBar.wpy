@@ -1,0 +1,91 @@
+<style type="less">
+ .taskbar_wrapper{
+    
+    background: #fff;
+    border-radius: 3px;
+    font-size: 13px;
+    position: relative;
+    margin-top: 15px;
+ }
+
+
+ .taskbar_container{
+     width: 100%;
+  height: 50px;
+   align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    padding: 5px 15px;
+ }
+ .taskbar_container Text{
+     width: 25%;
+     padding: 0 5px;
+ }
+
+.task_new{
+    color: #fff;
+    background: red;
+    padding: 2px;
+    font-size: 9px;
+    position: absolute;
+    top:0px;
+    right: 0px;;
+}
+ .taskbar_avatar{
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+ }
+ .taskbar_avatar image{
+     width: 30px;
+     height: 30px;
+     border-radius: 15px;
+ }
+ .taskbar_desc{
+     height: 30px;
+     background: #E7F0FF;
+     padding: 10px 10px;
+     width: 100%;
+     border-radius: 5px;
+     border: 2px solid #CDDBFF;
+     font-size: 12px;
+ }
+</style>
+
+<template>
+    <view class="taskbar_wrapper" @tap="toTaskInfo">
+       <view class="taskbar_container">
+          <Text>
+           <image class="taskbar_avatar" src="{{taskdata.avatar}}"/>
+         </Text>
+         <Text>{{taskdata.name}}</Text>
+         <Text>{{taskdata.kg}}</Text>
+         <Text>{{taskdata.price}}</Text>
+       </view> 
+
+       <view wx:if="{{taskdata.isnew}}" class="task_new">
+          new
+       </view>   
+    </view>
+</template>
+
+
+<script>
+import wepy from 'wepy'
+export default  class TaskBar extends wepy.component{
+  props={
+      taskdata:{
+          type:Object
+      }
+  }
+  methods={
+      toTaskInfo(){
+          wepy.navigateTo({
+              url:'/pages/taskinfo/taskinfo'
+          })
+      }
+  }
+ 
+}
+</script>
+

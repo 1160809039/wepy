@@ -1,0 +1,84 @@
+<style lang="less">
+.container{
+    height: 100%;
+    background: #fff;
+}
+.taskinfo_wrapper{
+    font-size: 13px;
+    padding:10px 15px;
+    color: #999;
+}
+.taskinfo_wrapper>view{
+    padding: 10px 10px
+}
+</style>
+<template>
+  <view class="container">
+
+    <van-panel title="华为音响"  status="等待" use-footer-slot>
+       <view class="taskinfo_wrapper">
+          <view>
+              重量： 0.5KG
+          </view>   
+           <view>
+              价格： 1RMB
+          </view>    
+           <view>
+              发布人： 明明就不简单
+          </view>   
+           <view>
+              发布时间： 2018年8月15日 14点23分
+          </view> 
+          <view>
+              地址： 信息与控制工程学院 计算机专业 12栋楼 407寝室
+          </view>  
+       </view>
+       <view slot="footer">
+         <van-button size="large" type="danger">接单</van-button>
+       </view>
+     </van-panel>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Toast from 'wepy-com-toast'
+  import data from '../../config/schooldata'
+
+  @connect({
+    num (state) {
+      return state.counter.num
+    },
+    asyncNum (state) {
+      return state.counter.asyncNum
+    },
+    sumNum (state) {
+      return state.counter.num + state.counter.asyncNum
+    }
+  })
+
+  export default class TaskInfo extends wepy.page {
+    config = {
+    "usingComponents": {
+         "van-panel": "/miniprogram_npm/vant-weapp/panel/index",
+          "van-button": "/miniprogram_npm/vant-weapp/button/index"
+     }
+    
+      
+    }
+    methods={
+  
+    }
+
+
+    onLoad(){
+       
+     }
+
+    data={
+        
+    }
+  
+  }
+</script>
