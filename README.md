@@ -12,15 +12,16 @@ wepy开发的校园快递代拿小程序,ui框架使用了Vant weapp,功能包�
 # 效果展示
 
 ![效果图](https://api.weixin.shaozeming.top/public/static/1.png)
-![效果图](https://api.weixin.shaozeming.top/public/static/2.png)
-![效果图](https://api.weixin.shaozeming.top/public/static/3.png)
-![效果图](https://api.weixin.shaozeming.top/public/static/4.png)
-![效果图](https://api.weixin.shaozeming.top/public/static/5.png)
-![效果图](https://api.weixin.shaozeming.top/public/static/6.png)
-![效果图](https://api.weixin.shaozeming.top/public/static/7.png)
-![效果图](https://api.weixin.shaozeming.top/public/static/8.png)
-![效果图](https://api.weixin.shaozeming.top/public/static/9.png)
-![效果图](https://api.weixin.shaozeming.top/public/static/10.png)
-![效果图](https://api.weixin.shaozeming.top/public/static/11.png)
-![效果图](https://api.weixin.shaozeming.top/public/static/12.png)
-![效果图](https://api.weixin.shaozeming.top/public/static/13.png)
+<br/>
+![效果图](https://api.weixin.shaozeming.top/public/static/2.png)<br/>
+![效果图](https://api.weixin.shaozeming.top/public/static/3.png)<br/>
+![效果图](https://api.weixin.shaozeming.top/public/static/4.png)<br/>
+![效果图](https://api.weixin.shaozeming.top/public/static/5.png)<br/>
+![效果图](https://api.weixin.shaozeming.top/public/static/6.png)<br/>
+![效果图](https://api.weixin.shaozeming.top/public/static/7.png)<br/>
+![效果图](https://api.weixin.shaozeming.top/public/static/8.png)<br/>
+![效果图](https://api.weixin.shaozeming.top/public/static/9.png)<br/>
+![效果图](https://api.weixin.shaozeming.top/public/static/10.png)<br/>
+![效果图](https://api.weixin.shaozeming.top/public/static/11.png)<br/>
+![效果图](https://api.weixin.shaozeming.top/public/static/12.png)<br/>
+![效果图](https://api.weixin.shaozeming.top/public/static/13.png)<br/>
