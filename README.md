@@ -12,15 +12,3 @@ wepy开发的校园快递代拿小程序,ui框架使用了Vant weapp,功能包�
 # 效果展示
 
 ![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/1.jpg)
-![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/2.jpg)
-![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/3.jpg)
-![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/4.jpg)
-![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/5.jpg)
-![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/6.jpg)
-![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/7.jpg)
-![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/8.jpg)
-![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/9.jpg)
-![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/10.jpg)
-![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/11.jpg)
-![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/12.jpg)
-![效果图](https://github.com/1160809039/wepy/tree/master/src/static/img/13.jpg)
