@@ -11,17 +11,17 @@ wepy开发的校园快递代拿小程序,ui框架使用了Vant weapp,功能包�
 
 # 效果展示
 
-![效果图](https://api.weixin.shaozeming.top/public/static/1.png)
+![效果图](http://p8c48bjkj.bkt.clouddn.com/1.png)
 <br/>
-![效果图](https://api.weixin.shaozeming.top/public/static/2.png)<br/>
-![效果图](https://api.weixin.shaozeming.top/public/static/3.png)<br/>
-![效果图](https://api.weixin.shaozeming.top/public/static/4.png)<br/>
-![效果图](https://api.weixin.shaozeming.top/public/static/5.png)<br/>
-![效果图](https://api.weixin.shaozeming.top/public/static/6.png)<br/>
-![效果图](https://api.weixin.shaozeming.top/public/static/7.png)<br/>
-![效果图](https://api.weixin.shaozeming.top/public/static/8.png)<br/>
-![效果图](https://api.weixin.shaozeming.top/public/static/9.png)<br/>
-![效果图](https://api.weixin.shaozeming.top/public/static/10.png)<br/>
-![效果图](https://api.weixin.shaozeming.top/public/static/11.png)<br/>
-![效果图](https://api.weixin.shaozeming.top/public/static/12.png)<br/>
-![效果图](https://api.weixin.shaozeming.top/public/static/13.png)<br/>
+![效果图](http://p8c48bjkj.bkt.clouddn.com/2.png)<br/>
+![效果图](http://p8c48bjkj.bkt.clouddn.com/3.png)<br/>
+![效果图](http://p8c48bjkj.bkt.clouddn.com/4.png)<br/>
+![效果图](http://p8c48bjkj.bkt.clouddn.com/5.png)<br/>
+![效果图](http://p8c48bjkj.bkt.clouddn.com/6.png)<br/>
+![效果图](http://p8c48bjkj.bkt.clouddn.com/7.png)<br/>
+![效果图](http://p8c48bjkj.bkt.clouddn.com/8.png)<br/>
+![效果图](http://p8c48bjkj.bkt.clouddn.com/9.png)<br/>
+![效果图](http://p8c48bjkj.bkt.clouddn.com/10.png)<br/>
+![效果图](http://p8c48bjkj.bkt.clouddn.com/11.png)<br/>
+![效果图](http://p8c48bjkj.bkt.clouddn.com/12.png)<br/>
+![效果图](http://p8c48bjkj.bkt.clouddn.com/13.png)<br/>
