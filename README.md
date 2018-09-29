@@ -11,10 +11,13 @@ wepy开发的校园快递代拿小程序,ui框架使用了Vant weapp,功能包�
 
 # 效果展示
 <div style="display:flex">
-<img width="30%"  margin-right:20px" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>
-<img width="30%"  margin-right:20px" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>                                                       <img width="30%"  margin-right:20px" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>                          
-<img width="30%"  margin-right:20px" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>                                                       <img width="30%"  margin-right:20px" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>
-<img width="30%"  margin-right:20px" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>
-<img width="30%"  margin-right:20px" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>
-<img width="30%"  margin-right:20px" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>                                                                                 
+<img width="30%"  style="margin:10px;" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>
+ <img width="30%"  style="margin:10px;" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>
+ <img width="30%"  style="margin:10px;" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>
+ <img width="30%"  style="margin:10px;" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>
+ <img width="30%"  style="margin:10px;" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>
+ <img width="30%"  style="margin:10px;" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>
+ <img width="30%"  style="margin:10px;" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>
+ <img width="30%"  style="margin:10px;" src="http://p8c48bjkj.bkt.clouddn.com/1.png"/>
+                                                                              
 </div>
