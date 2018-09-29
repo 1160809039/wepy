@@ -56,13 +56,13 @@
     <view class="taskbar_wrapper" @tap="toTaskInfo">
        <view class="taskbar_container">
           <Text>
-           <image class="taskbar_avatar" src="{{taskdata.avatar}}"/>
+           <image class="taskbar_avatar" src="{{taskdata.user_avatar}}"/>
          </Text>
-         <Text>{{taskdata.name}}</Text>
-         <Text>{{taskdata.kg}}</Text>
-         <Text>{{taskdata.price}}</Text>
+         <Text>{{taskdata.task_name}}</Text>
+         <Text>{{taskdata.task_weight+'KG'}}</Text>
+         <Text>{{taskdata.task_price+'￥'}}</Text>
        </view> 
-
+       
        <view wx:if="{{taskdata.isnew}}" class="task_new">
           new
        </view>   
@@ -78,10 +78,11 @@ export default  class TaskBar extends wepy.component{
           type:Object
       }
   }
+  
   methods={
-      toTaskInfo(){
+      toTaskInfo(){   
           wepy.navigateTo({
-              url:'/pages/taskinfo/taskinfo'
+              url:'/pages/taskinfo/taskinfo?type=other&param='+JSON.stringify(this.taskdata)
           })
       }
   }

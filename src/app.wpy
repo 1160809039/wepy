@@ -18,6 +18,11 @@ import 'wepy-async-function';
 
 const store = configStore()
 setStore(store)
+wepy.$store=store
+
+
+import {USERADD} from './store/types/user'
+  import {OPENID} from './config/common'
 
 export default class extends wepy.app {
   config = {
@@ -29,7 +34,10 @@ export default class extends wepy.app {
       'pages/address/edit/edit',
       'pages/school/school',
       'pages/taskinfo/taskinfo',
-      'pages/minepublish/minepublish'
+      'pages/minepublish/minepublish',
+      'pages/publishedit/publishedit',
+      'pages/login/login',
+      'pages/taskend/taskend'
     
     ],
     window: {
@@ -79,28 +87,31 @@ export default class extends wepy.app {
   }
 
   onLaunch() {
+
+    //打开分享功能
+   wepy.showShareMenu()
   
+
+  //检查是否登录
+   wepy.getSetting().then(res=>{
+          if (res.authSetting['scope.userInfo']) {
+         //以防万一，检查一遍openid
+          let openid=wepy.getStorageSync(OPENID)
+          if(openid){
+                   // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+                    wepy.getUserInfo().then(res=>  {
+                       wepy.$store.dispatch({type:USERADD,payload:res.userInfo}) 
+                 })  
+      
+              }
+
+        }
+      
+     })
+
+    
   }
 
-  sleep (s) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve('promise resolved')
-      }, s * 1000)
-    })
-  }
 
-  async testAsync () {
-    const data = await this.sleep(3)
-    console.log(data)
-  }
-
-  getUserInfo(cb) {
-    const that = this
-    if (this.globalData.userInfo) {
-      return this.globalData.userInfo
-    }
-  
-  }
 }
 </script>

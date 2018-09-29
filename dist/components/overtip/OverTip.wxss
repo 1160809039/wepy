@@ -1,0 +1,17 @@
+.over_tip {
+  border: 1px #eee solid;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotateZ(30deg);
+  position: relative;
+}
+.over_tip_line {
+  background: #eee;
+  width: 60px;
+  height: 2px;
+  position: absolute;
+}

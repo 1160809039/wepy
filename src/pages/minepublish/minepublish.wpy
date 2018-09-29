@@ -1,129 +1,83 @@
 <style lang="less">
 .container{
-  height: 100%;
-  background: #eee
-}
-form{
-  background: #fff;
-  display: block;
-  font-size:12px;
-}
- .publish_name{
-   margin-left: 20px;
-   padding: 5px 0;
-   font-size: 12px;
-   border-bottom: 1px #eee solid;
- }
- .publish_name_placeholder{
-   color: #999;
- }
- .publish_name input{
-   height: 40px;
- }
- .publish_num{
-    margin-left: 20px;
-   align-items: center;
-   font-size: 12px;
-   border-bottom: 1px #eee solid;
-   display: flex;
-   height: 50px;
-   justify-content: space-between;
- }
- .publish_num_input{
-   display: flex;
-   align-items: center;
-   width: 60px;
-   padding-right: 15px;
-   color: #999;
- }
-.separator_line{
-  height: 10px;
+  min-height: 100%;
   background: #eee;
+  padding-top: 15px;
+  box-sizing: border-box;
 }
-.publish_place{
-  height: 50px;
-  line-height: 50px;
-  margin-left: 20px;
-  display: flex;
-  justify-content: space-between;
-  margin-right: 15px;
-   
+.minepublish_complete{
+  font-size: 12px;
+  padding-bottom: 50px;
 }
-.publish_place_value{
-  color: #999;
+
+.minepublish_wait{
+  margin: 0px 15px;
+  padding-bottom: 50px;
 }
+
 </style>
 <template>
   <view class="container">
-   <form>
-     <view class="publish_name">
-        <input placeholder="请输入快递名称" placeholder-class="publish_name_placeholder" focus/>
-     </view>
-      <view class="publish_num">
-       <span>代拿价格</span>  
-         <view class="publish_num_input"> 
-          <input type="number" value="1" /> RMB
-         </view> 
-      </view>
-      <view class="publish_num">
-        <span>快递重量</span> 
-         <view class="publish_num_input"> 
-          <input type="number" value="1" /> KG
-         </view> 
-      </view>
-       
-
-       <view class="separator_line">
+       <view wx:if="{{tabshow==0}}" class="minepublish_complete">
+            
+            <repeat for="{{confirmData}}" key="index" index="index" item="item">
+               <ConfirmCard :taskdata="item"  @homeReflesh.user="homeReflesh"></ConfirmCard>
+         </repeat>
        </view>
 
-       <view class="publish_place" @tap="toAdressList">
-         <view >
-           收货地址
-           <span class="fa fa-map-marker"></span>  
-         </view>
-         <view class="publish_place_value">
-           计算机专业 15栋407寝室
-         </view>
+
+       <view wx:if="{{tabshow==1}}" class="minepublish_wait">
+
+          <repeat for="{{taskData}}" key="index" index="index" item="item">
+             <PublishCard :taskdata="item"  @homeReflesh.user="homeReflesh"></PublishCard>
+          </repeat>
+            
        </view>
 
-       <view class="separator_line">
-       </view>
-
-       <view class="publish_name">
-        <input placeholder="请输入收货人名字" placeholder-class="publish_name_placeholder" />
-       </view>
-
-        <view class="publish_name">
-         <input placeholder="请输入收货人手机号" type="number"  placeholder-class="publish_name_placeholder" />
-        </view>
-<van-button size="large">保存</van-button>
-    
-   </form>
+<van-dialog id="van-dialog" />
+     <van-tabbar active="{{ active }}" bind:change="onChange">
+        <van-tabbar-item icon="passed" info="{{infocount}}">已完成</van-tabbar-item>
+        <van-tabbar-item icon="clock">等待中</van-tabbar-item>
+     </van-tabbar>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import { connect } from 'wepy-redux'
   import Toast from 'wepy-com-toast'
-
-  @connect({
-    num (state) {
-      return state.counter.num
-    },
-    asyncNum (state) {
-      return state.counter.asyncNum
-    },
-    sumNum (state) {
-      return state.counter.num + state.counter.asyncNum
-    }
-  })
-
+   
+  import {selectTaskByOpenId,selectTaskConfirmed} from "../../api/task";
+  import PublishCard from '../../components/publishcard/PublishCard';
+  import ConfirmCard from '../../components/confirmcard/ConfirmCard';
+  import {OPENID} from '../../config/common';
   export default class MinePublish extends wepy.page {
     config = {
+       enablePullDownRefresh:true,
       "usingComponents": {
-         "van-button": "/miniprogram_npm/vant-weapp/button/index"
+         "van-tabbar": "/miniprogram_npm/vant-weapp/tabbar/index",
+          "van-tabbar-item": "/miniprogram_npm/vant-weapp/tabbar-item/index",
+            "van-icon": "/miniprogram_npm/vant-weapp/icon/index"
       }
+    }
+    data={
+      tabshow:0,
+      taskData:[],
+      confirmData:[],
+      infocount:0,
+    }
+    components={
+      PublishCard:PublishCard,
+      ConfirmCard:ConfirmCard
+    }
+
+  onPullDownRefresh(){
+
+      this.methods.homeLoad(this,wepy.stopPullDownRefresh);
+    }
+     onShow(){
+     
+         this.methods.homeLoad(this);
+      
     }
     methods={
       
@@ -131,7 +85,41 @@ form{
           wepy.navigateTo({
             url:'/pages/address/list/list'
           })
+       },
+        onChange(event) {
+        this.tabshow=event.detail;
+       
+       },
+       //初始化数据
+      async  homeLoad(that,callback){
+             let openid=wepy.getStorageSync(OPENID);
+
+      //加载我的待完成数据
+        let resConfirm=await selectTaskConfirmed({openid:openid});
+      if(resConfirm.statusCode===200){
+           that.confirmData=resConfirm.data;
+           that.infocount=resConfirm.data.length;
+           that.$apply();
        }
+
+     //加载我的发布的数据
+      let resTask=await selectTaskByOpenId({openid:openid});
+       if(resTask.statusCode===200){
+           that.taskData=resTask.data;
+           that.$apply();
+       }
+       if(callback){
+         callback();
+       }
+
+       },
+
+      //刷新页面
+       homeReflesh(){
+         
+         this.methods.homeLoad(this);
+       }
+   
     }
   }
 </script>

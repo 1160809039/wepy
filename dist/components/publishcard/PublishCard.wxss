@@ -1,0 +1,58 @@
+.minepublish_wait {
+  margin: 0px 15px;
+}
+.minepublish_wait_card {
+  font-size: 12px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 15px 15px;
+  margin-bottom: 15px;
+}
+.minepublish_wait_title {
+  display: flex;
+  justify-content: space-between;
+}
+.minepublish_wait_place {
+  padding: 15px 0;
+}
+.minepublish_wait_place Text {
+  margin-right: 8px;
+}
+.minepublish_wait_user Text {
+  margin-right: 8px;
+}
+.minepublish_gray {
+  color: #999;
+}
+.minepublish_wait_info {
+  padding: 15px 0;
+  display: flex;
+}
+.minepublish_wait_info view {
+  margin-right: 15px;
+}
+.minepublish_wait_ctr {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+.minepublish_wait_ctr view {
+  margin-left: 15px;
+}
+.minepublish_wait_delete {
+  background: #F56C6C;
+  color: #fff;
+  padding: 6px 15px;
+  border-radius: 5px;
+}
+.minepublish_wait_edit {
+  background: #409EFF;
+  color: #fff;
+  padding: 6px 15px;
+  border-radius: 5px;
+}
+.fa-spinner {
+  color: #58D456;
+  margin-right: 10px;
+}

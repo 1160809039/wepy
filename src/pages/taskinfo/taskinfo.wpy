@@ -2,83 +2,268 @@
 .container{
     height: 100%;
     background: #fff;
+    font-size: 13px;
+    padding: 10px 15px;
+    box-sizing: border-box;
 }
 .taskinfo_wrapper{
-    font-size: 13px;
-    padding:10px 15px;
+    
+    padding:10px 0px;
     color: #999;
+}
+.taskinfo_title{
+   padding: 10px 10px;
+   border-bottom: 1px solid #eee;
+   display: flex;
+   justify-content: space-between;
 }
 .taskinfo_wrapper>view{
     padding: 10px 10px
+}
+.task_wait{
+  color: #F56C6C
+}
+.task_hand{
+  color: #409EFF
+}
+.footer_take{
+  height: 50px;
+  border-radius:5px;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  background: #409EFF;
+  color: #fff;
+  font-size: 15px;
+}
+.footer_cancel{
+   height: 50px;
+  border-radius:5px;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  background: #F56C6C;
+  color: #fff;
+  font-size: 15px;
+}
+.footer_mine{
+  display: flex;
+  justify-content: space-around;
+}
+.footer_mine>view{
+   width: 40%;
+}
+.footer_end{
+   height: 50px;
+  border-radius:5px;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  background: #409EFF;
+  color: #fff;
+  font-size: 15px;
 }
 </style>
 <template>
   <view class="container">
 
-    <van-panel title="华为音响"  status="等待" use-footer-slot>
+      <view class="taskinfo_title">
+         <Text>{{taskdata.task_name}}</Text>
+
+          <view wx:if="{{ismine}}" class="task_hand">
+            
+             <Text class="fa fa-bullseye"></Text>
+            已接取
+          </view>
+
+          <View wx:else  class="task_wait" >
+            <Text class="fa fa-dot-circle-o"></Text>
+            等待中
+        
+          </View>
+      </view>
        <view class="taskinfo_wrapper">
           <view>
-              重量： 0.5KG
+              重量： {{taskdata.task_weight}}KG
           </view>   
            <view>
-              价格： 1RMB
+              价格： {{taskdata.task_price}}￥
           </view>    
            <view>
-              发布人： 明明就不简单
+              发布人： {{nickName}}
           </view>   
+              <view wx:if="{{ismine}}">
+                收货人： {{consignee_name}}
+             </view> 
+             <view wx:if="{{ismine}}">
+                收货人手机号： {{consignee_mobile}}
+             </view> 
+        
            <view>
-              发布时间： 2018年8月15日 14点23分
+              发布时间：  {{taskdata.create_time}}
           </view> 
           <view>
-              地址： 信息与控制工程学院 计算机专业 12栋楼 407寝室
+              地址： {{address}}
           </view>  
+         
        </view>
-       <view slot="footer">
-         <van-button size="large" type="danger">接单</van-button>
+       <view  wx:if="{{ismine}}" class="footer footer_mine">
+         <view class="footer_end"  @tap='endTask'>完成任务</view>
+          <view class="footer_cancel" @tap='cancelTask'>取消任务</view>
        </view>
-     </van-panel>
-  </view>
+       <view wx:else class="footer">
+         <view class="footer_take" @tap="receiveTask('{{taskdata.user_id}}','{{taskdata.id}}')">接单</view>
+       </view>
+       
+      <van-toast id="van-toast" />
+     </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import { connect } from 'wepy-redux'
-  import Toast from 'wepy-com-toast'
   import data from '../../config/schooldata'
-
-  @connect({
-    num (state) {
-      return state.counter.num
-    },
-    asyncNum (state) {
-      return state.counter.asyncNum
-    },
-    sumNum (state) {
-      return state.counter.num + state.counter.asyncNum
-    }
-  })
-
+  import {OPENID} from '../../config/common';
+  import Toast from '../../miniprogram_npm/vant-weapp/toast/toast';
+ import {saveReceive,getTaskById,updateReceiveDelete,updateReceiveEnd} from '../../api/task'
+  import {selectUser} from '../../api/user'
+  import {selectAddress} from '../../api/address'
   export default class TaskInfo extends wepy.page {
     config = {
     "usingComponents": {
          "van-panel": "/miniprogram_npm/vant-weapp/panel/index",
-          "van-button": "/miniprogram_npm/vant-weapp/button/index"
+          "van-button": "/miniprogram_npm/vant-weapp/button/index",
+           "van-toast": "/miniprogram_npm/vant-weapp/toast/index"
      }
-    
-      
+
     }
-    methods={
+ 
+  data={
+    ismine:true,
+    taskdata:{},
+    nickName:'',
+    address:'',
+    consignee_name:"",
+    consignee_mobile:"",
+    receiveId:''
+  }
+
+  async onLoad(options) {
+      //打开分享功能
+   wepy.showShareMenu();
   
-    }
+       //显示不同的页面
+       let type=options.type;
 
-
-    onLoad(){
-       
-     }
-
-    data={
+       //任务详情页
+        if('mine'==type){
+          this.ismine=true
+          let taskId=options.taskId;
+          let receiveId=options.receiveId;
+          this.receiveId=receiveId;
         
+           wepy.showLoading({
+          title:'加载中',
+           mask:true
+          })
+           let res=await getTaskById({taskId:taskId});
+          
+            if(res.statusCode===200&&res.data.id){
+                this.taskdata=res.data;
+                this.nickName=res.data.nick_name;
+                this.address=res.data.address;
+                this.consignee_name=res.data.consignee_name;
+                 this.consignee_mobile=res.data.consignee_mobile;
+                this.$apply();
+            }
+             wepy.hideLoading()
+
+        }else{
+
+          //已接任务详情页
+          this.ismine=false
+
+            wepy.showLoading({
+          title:'加载中',
+           mask:true
+          })
+        let param=JSON.parse(options.param);
+
+        this.taskdata=param
+         
+         let userId=param.user_id
+         //发布人用户信息
+         let res=await selectUser({id:userId});
+        
+        if(res.statusCode===200&&res.data.id){
+           this.setData({
+                nickName:res.data.nick_name
+              })
+        }
+       //发布人地址信息
+       let resAddress=await   selectAddress({id:param.address_id});
+        
+          if(resAddress.statusCode===200&&resAddress.data.id){
+            let data=resAddress.data;
+            let address=data.branch_courts+" "+data.department_name+" "+data.specific_address;
+              this.setData({
+                address:address
+              })
+      
+        }
+         wepy.hideLoading()
+        }
+
+        
+     }
+ onShareAppMessage(res) {
+    return {
+      title: this.taskdata.task_name+" "+"任务金额："+this.taskdata.task_price,
+      path: '/pages/taskinfo/taskinfo?type=other&param='+JSON.stringify(this.taskdata)
     }
+  }
   
+    methods={
+      //接单
+      async receiveTask(userId,taskId){
+        
+              wepy.showLoading({
+          title:'加载中',
+           mask:true
+          })
+            let openid=wepy.getStorageSync(OPENID);
+           let res= await saveReceive({
+               taskId:taskId,
+               id:userId,
+               openid:openid
+           })
+          if(res.statusCode===200&&res.data.id){
+            wepy.hideLoading()
+             wepy.navigateBack();
+          }else{
+            Toast("错误")
+          }
+
+       },
+       //取消任务
+       async cancelTask(){
+          let receiveId=this.receiveId;
+          let res=await  updateReceiveDelete({receiveId:receiveId});
+           if(res.statusCode===200&&res.data.id){
+             wepy.navigateBack();
+          }else{
+            Toast("错误")
+          }
+       },
+       //完成任务
+       async endTask(){
+          let receiveId=this.receiveId;
+          let res=await  updateReceiveEnd({receiveId:receiveId});
+           if(res.statusCode===200&&res.data.id){
+             wepy.navigateBack();
+           }else{
+            Toast("错误")
+          }
+       }
+    }
   }
 </script>

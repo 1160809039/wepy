@@ -39,16 +39,20 @@
 <template>
   <view class="container">
    <view class="person_avatar">
-       <image src={{userInfo.avatarUrl}}/>
+       <image src={{getUser.userinfo.avatarUrl}}/>
        <Text>
-           {{userInfo.nickName}}
+           {{getUser.userinfo.nickName}}
         </Text>
 
    </view>
 
    <view class="person_action">
        <view class="person_task"  @tap="toMinePublish">
-          我的任务
+          进行中任务
+          <Text class="fa fa-angle-right"></Text>
+       </view>
+        <view class="person_task"  @tap="toTaskEnd">
+          已完结任务
           <Text class="fa fa-angle-right"></Text>
        </view>
         <view class="person_task"  @tap="toAdressList">
@@ -56,63 +60,42 @@
            <Text class="fa fa-angle-right"></Text>
        </view>
    </view>  
-   <button wx:if="{{!userInfo}}" open-type="getUserInfo"  bindgetuserinfo="bindGetUserInfo">授权</button>  
+ 
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import { connect } from 'wepy-redux'
   import Toast from 'wepy-com-toast'
- 
-
-  @connect({
-    num (state) {
-      return state.counter.num
-    },
-    asyncNum (state) {
-      return state.counter.asyncNum
-    },
-    sumNum (state) {
-      return state.counter.num + state.counter.asyncNum
-    }
-  })
 
   export default class Person  extends wepy.page {
     config = {
       
     }
-    data={
-        userInfo: null,
-       
+   
+    computed={
+      getUser(){
+          return wepy.$store.getState().user;
+      }
     }
     onLoad(){
- 
-     wepy.getSetting().then(res=>{
-          if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wepy.getUserInfo().then(res=>  {
-              console.log(res.userInfo)
-              this.userInfo=res.userInfo;
-              this.$apply();
-          })
-        }
-     })
-              
              
      }
      methods={
-         bindGetUserInfo(res){
-            this.userInfo=res.detail.userInfo
-         },
           toAdressList(){
           wepy.navigateTo({
             url:'/pages/address/list/list'
           })
-        }
+        },
          toMinePublish(){
                wepy.navigateTo({
               url:'/pages/minepublish/minepublish'
+            })
+          },
+
+           toTaskEnd(){
+               wepy.navigateTo({
+              url:'/pages/taskend/taskend'
             })
           }
      }

@@ -1,0 +1,10 @@
+.container {
+  height: 100%;
+  background: #fff;
+}
+.school_title {
+  height: 40px;
+  font-size: 15px;
+  line-height: 40px;
+  padding-left: 20px;
+}

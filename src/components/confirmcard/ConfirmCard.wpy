@@ -1,0 +1,130 @@
+<style type="less">
+ 
+.minepublish_complete_card{
+  min-height: 50px;
+  background: #fff;
+  border-top:15px solid #eee; 
+  padding: 10px 35px 10px 20px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+   
+}
+
+.minepublish_complete_info{
+ display: flex;
+ justify-content:flex-start ;
+}
+.minepublish_complete_info view{
+  margin-right: 10px;
+}
+.fa-check-circle-o{
+  color: #58D456;
+}
+.minepublish_complete_kg{
+  padding: 0px 4px ;
+  background: #ff9900;
+  font-size: 9px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.minepublish_complete_price{
+  padding: 0px 4px ;
+  background: #F56C6C;
+  font-size: 9px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.minepublish_complete_person{
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  color: #999;
+}
+
+.minepublish_complete_person image{
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  margin-right: 10px;
+}
+.minepublish_complete_date{
+  color: #999;
+  padding-left: 40px
+}
+.minepublish_complete_btn{
+ background: #409EFF;
+   color: #fff;
+   border-radius: 3px;
+   padding: 6px 15px;
+}
+</style>
+
+<template>
+    <view class="minepublish_complete_card">
+               <view class="minepublish_complete_left">
+                  <View class="minepublish_complete_info" >
+                
+                 <View >
+                   <Text class="fa fa-check-circle-o"></Text> 
+                   {{taskdata.task_name}}
+                  </View>
+                   <View class="minepublish_complete_kg" >
+                   {{taskdata.task_weight}}KG
+                  </View>
+                   <View class="minepublish_complete_price">
+                   {{taskdata.task_price}}￥
+                  </View>
+                  
+               </View>
+                 <View  class="minepublish_complete_person" >
+                      <image class="taskbar_avatar" src="{{taskdata.user.avatar_url}}"/>
+                      <Text>{{taskdata.user.nick_name}} 确认抵达</Text>
+                  </View>
+                   <View  class="minepublish_complete_date" >
+                      {{taskdata.modified_time}}
+                  </View>
+                 </view>
+                 <view class="minepublish_complete_right">
+                    <view class="minepublish_complete_btn"  @tap="confirmEnd('{{taskdata.id}}')"> 完成</view>
+                 </view>
+              
+            </view>
+</template>
+
+
+<script>
+import wepy from 'wepy'
+import {updateReceiveConfirmEnd} from '../../api/task'
+export default  class ConfirmCard extends wepy.component{
+
+   
+  props={
+      taskdata:{
+          type:Object
+      }
+  }
+   methods={
+       async confirmEnd(id){
+           let res=await updateReceiveConfirmEnd({receiveId:id});
+            if(res.statusCode===200&&res.data.id){
+                   wepy.showToast({
+                       title:'成功完成'
+                     })
+                   //删除成功刷新父页面
+                     this.$emit('homeReflesh');
+            }else{
+                  wepy.showToast({
+                       title:'网络错误'
+                     })
+            }
+       }
+   }
+}
+</script>
+

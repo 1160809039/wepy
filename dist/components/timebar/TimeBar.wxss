@@ -1,0 +1,9 @@
+.timebar_wrapper {
+  font-size: 13px;
+  padding: 15px 0;
+  text-align: center;
+  color: #999;
+}
+.timebar_wrapper Text {
+  margin-left: 15px;
+}

@@ -1,0 +1,390 @@
+<style lang="less">
+.container{
+  min-height: 100%;
+  background: #eee;
+  padding-top: 15px;
+  box-sizing: border-box;
+}
+.minepublish_complete{
+  font-size: 12px;
+  padding-bottom: 100px;
+}
+
+.minepublish_wait{
+  margin: 0px 15px;
+  padding-bottom: 100px;
+}
+
+.minepublish_complete_card{
+  min-height: 50px;
+  background: #fff;
+  border-top:15px solid #eee; 
+  padding: 10px 35px 10px 20px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+   
+}
+
+.minepublish_complete_info{
+ display: flex;
+ justify-content:flex-start ;
+}
+.minepublish_complete_info view{
+  margin-right: 10px;
+}
+.fa-check-circle-o{
+  color: #58D456;
+}
+.minepublish_complete_kg{
+  padding: 0px 4px ;
+  background: #409EFF;
+  font-size: 9px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.minepublish_complete_price{
+  padding: 0px 4px ;
+  background: #58D456;
+  font-size: 9px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.minepublish_complete_person{
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  color: #999;
+}
+
+.minepublish_complete_person image{
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  margin-right: 10px;
+}
+.minepublish_complete_date{
+  color: #999;
+  padding-left: 40px
+}
+.minepublish_complete_btn{
+ background: #409EFF;
+   color: #fff;
+   border-radius: 3px;
+   padding: 6px 15px;
+}
+ 
+.minepublish_wait{
+  margin: 0px 15px;
+}
+.minepublish_wait_card{
+
+  font-size: 12px;
+  position: relative;
+  background: #fff;
+  border-radius: 5px;
+  padding: 15px 15px;
+  margin-bottom: 15px;
+}
+.minepublish_wait_title {
+  display: flex;
+  justify-content: space-between;
+}
+.minepublish_wait_place{
+  padding: 15px 0;
+}
+.minepublish_wait_place Text{
+  margin-right: 8px;
+}
+
+.minepublish_wait_user Text{
+  margin-right: 8px;
+}
+.minepublish_gray{
+  color: #999;
+}
+.minepublish_wait_info{
+  padding: 15px 0;
+  display: flex;
+}
+.minepublish_wait_info view{
+  margin-right: 15px;
+}
+.minepublish_wait_ctr{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+.minepublish_wait_ctr view{
+  margin-left: 15px;
+}
+.minepublish_wait_delete{
+  background: #F56C6C;
+  color: #fff;
+  padding: 6px 15px;
+  border-radius: 5px;
+}
+.minepublish_wait_edit{
+  background: #409EFF;
+  color: #fff;
+  padding: 6px 15px;
+  border-radius: 5px;
+}
+.fa-spinner{
+   color: #58D456;
+   margin-right: 10px;
+}
+.data_more{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   position:relative;
+ }
+ .data_more van-loading{
+   position: absolute;
+   top:10px;
+   
+ }
+</style>
+<template>
+  <view class="container">
+       <view wx:if="{{tabshow==0}}" class="minepublish_complete">
+         <scroll-view scroll-y scroll-with-animation="true">
+        <repeat for="{{taskData}}" key="index" index="index" item="item">
+            <view class="minepublish_complete_card">
+               <view class="minepublish_complete_left">
+                  <View class="minepublish_complete_info" >
+                
+                 <View >
+                   <!-- <Text class="fa fa-check-circle-o"></Text>  -->
+                   {{item.task_name}}
+                  </View>
+                   <View class="minepublish_complete_kg" >
+                  {{item.task_weight}}KG
+                  </View>
+                   <View class="minepublish_complete_price">
+                   {{item.task_price}}￥
+                  </View>
+                  
+               </View>
+                 <View  class="minepublish_complete_person" >
+                      <image class="taskbar_avatar" src="{{item.publishuser.avatar_url}}"/>
+                      <Text>{{item.publishuser.nick_name}} 发布</Text>
+                  </View>
+                   <View  class="minepublish_complete_date" >
+                      {{item.create_time}}
+                  </View>
+                 </view>
+                 <view class="minepublish_complete_right">
+                   <OverTip wx:if="{{item.state==2}}"></OverTip>
+                   <Text wx:if="{{item.state==1}}">
+                        待完成
+                   </Text>
+                 </view>
+              
+            </view>
+          </repeat>
+           
+          </scroll-view>
+              <view wx:if="{{is_loading}}" class="data_more">
+              <van-loading />
+           </view>
+       </view>
+
+
+       <view wx:if="{{tabshow==1}}" class="minepublish_wait">
+           <scroll-view scroll-y scroll-with-animation="true">
+
+           <repeat for="{{publishData}}" key="index" index="index" item="item">
+            <view class="minepublish_wait_card">
+                  <view class="minepublish_wait_title">
+                     <Text>{{item.task_name}}</Text>
+                     <Text class="minepublish_gray">{{item.create_time}}</Text>
+                  </view>
+
+                   <view class="minepublish_wait_place">
+                     <Text>收货地址</Text>
+                      <Text class="fa fa-map-marker"></Text>
+                       <Text class="minepublish_gray">
+                         {{item.address.branch_courts}} {{item.address.department_name}} {{item.address.specific_address}}
+                       </Text>
+                  </view>
+
+                   <view class="minepublish_wait_user">
+                     <Text>收货人</Text>
+                      <Text class="minepublish_gray"> {{item.address.consignee_name}}</Text>
+                       <Text class="minepublish_gray">
+                          {{item.address.consignee_mobile}}
+                       </Text>
+                  </view>
+
+                   <view class="minepublish_wait_info minepublish_gray">
+                      <view>
+                       {{item.task_weight}}KG
+                       </view>
+                       <view>
+                         {{item.task_price}}￥
+                       </view>
+              
+                   </view>
+
+                    <view class="minepublish_wait_ctr">
+                     
+                     <OverTip></OverTip>
+                   </view>
+
+                
+             </view>
+          </repeat>
+           
+       </scroll-view>
+       
+        <view wx:if="{{is_loading}}" class="data_more">
+              <van-loading />
+           </view>
+       </view>
+     <van-toast id="van-toast" />
+    <van-dialog id="van-dialog" />
+     <van-tabbar active="{{ active }}" bind:change="onChange">
+        <van-tabbar-item icon="passed">完成任务</van-tabbar-item>
+        <van-tabbar-item icon="clock">我发布的</van-tabbar-item>
+     </van-tabbar>
+     
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+   import OverTip from '../../components/overtip/OverTip'
+   import Toast from '../../miniprogram_npm/vant-weapp/toast/toast';
+  import {selectTaskMineOver,selectTaskMinePublish} from "../../api/task";
+  import {OPENID} from '../../config/common';
+  export default class TaskEnd extends wepy.page {
+    config = {
+       enablePullDownRefresh:true,
+      "usingComponents": {
+         "van-tabbar": "/miniprogram_npm/vant-weapp/tabbar/index",
+          "van-tabbar-item": "/miniprogram_npm/vant-weapp/tabbar-item/index",
+            "van-icon": "/miniprogram_npm/vant-weapp/icon/index",
+              "van-loading": "/miniprogram_npm/vant-weapp/loading/index",
+               "van-toast": "/miniprogram_npm/vant-weapp/toast/index"
+      }
+    }
+    data={
+      tabshow:0,
+      taskData:[],
+      publishData:[],
+      is_loading:false,
+      taskpage:1,
+      publishpage:1
+    }
+    components={
+        OverTip:OverTip
+    }
+
+  onPullDownRefresh(){
+
+      this.methods.homeLoad(this,wepy.stopPullDownRefresh);
+    }
+     onShow(){
+     
+         this.methods.homeLoad(this);
+      
+    }
+
+    
+  async  onReachBottom(){
+   let openid=wepy.getStorageSync(OPENID);
+    
+      if(this.tabshow==0){
+        this.is_loading=true;
+             let page=this.taskpage+1;
+             let res= await selectTaskMineOver({openid:openid,page:page,size:8})
+              
+               this.is_loading=false;
+               this.$apply();
+             if(res.statusCode===200){
+               if(res.data.length>0){
+                  this.taskData=this.taskData.concat(res.data);
+                  this.taskpage=page;
+                  this.$apply();
+               }else{
+                  Toast("已经是最底页了！")
+                  }
+                         
+               }else{
+                        Toast.fail('网络异常');
+                   
+                  }
+      }
+      if(this.tabshow==1){
+        this.is_loading=true;
+           let page=this.publishpage+1;
+             let res= await selectTaskMinePublish({openid:openid,page:page,size:8})
+        
+               this.is_loading=false;
+               this.$apply();
+             if(res.statusCode===200){
+               if(res.data.length>0){
+                  this.taskData=this.taskData.concat(res.data);
+                  this.publishpage=page;
+                  this.$apply();
+               }else{
+                  Toast("已经是最底页了！")
+                  }
+                         
+               }else{
+                        Toast.fail('网络异常');
+                   
+                  }
+      }
+    }
+    methods={
+    
+        onChange(event) {
+        this.tabshow=event.detail;
+       
+       },
+       //初始化数据
+      async  homeLoad(that,callback){
+             let openid=wepy.getStorageSync(OPENID);
+              that.taskpage=1;
+                that.publishpage=1;
+              let res= await selectTaskMineOver({openid:openid,page:1,size:8})
+            
+             if(res.statusCode===200){
+               that.taskData=res.data;
+               that.$apply();
+             }
+
+                let resPublish= await selectTaskMinePublish({openid:openid,page:1,size:8})
+             
+             if(resPublish.statusCode===200){
+               that.publishData=resPublish.data;
+               that.$apply();
+             }
+
+       if(callback){
+         callback();
+       }
+
+       },
+
+      //刷新页面
+       homeReflesh(){
+         
+         this.methods.homeLoad(this);
+       }
+   
+    }
+  }
+</script>

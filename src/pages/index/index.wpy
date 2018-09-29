@@ -4,7 +4,7 @@
   background: #eee;
 }
  .task_list{
-   margin-bottom: 40px;
+   margin-bottom: 50px;
    margin-left: 8px;
    margin-right: 8px;
   
@@ -38,16 +38,15 @@
  }
 
  .data_more{
-   width: 30px;
-   height: 30px;
-   background: #FF4444;
-   border-radius: 15px;
-   margin-left: 15px;
-   font-size: 10px;
-   color: #fefefe;
    display: flex;
    justify-content: center;
    align-items: center;
+   position:relative;
+ }
+ .data_more van-loading{
+   position: absolute;
+   top:-40px;
+   
  }
  .task_wrapper{
    margin-top: 20px;
@@ -58,7 +57,7 @@
   
              
       <view class="task_school" @tap="toSelectSchool">
-          浙江广厦建设职业技术学院
+          {{school.text}}
           <Text class="fa fa-exchange"></Text>
        </view>
       <view class="task_wrapper">
@@ -81,10 +80,10 @@
            </Text>  
        </view>
       <scroll-view scroll-y scroll-with-animation="true">
-       <view class="task_list">
+       <view class="task_list" >
 
-         <repeat for="{{10}}" key="index" index="index" item="item">
-           <TaskBar :taskdata="taskdata"></TaskBar>
+         <repeat for="{{taskdata}}" key="item.id" index="index" item="item">
+           <TaskBar :taskdata="item"></TaskBar>
          </repeat>
         
      
@@ -96,8 +95,8 @@
            <van-tab title="已接任务">
              
              <view class="task_list">
-                <repeat for="{{3}}" key="index" index="index" item="item">
-                <MineTaskBar :taskdata="minedata"></MineTaskBar>
+                <repeat for="{{minedata}}" key="index" index="index" item="item">
+                <MineTaskBar :taskdata="item"></MineTaskBar>
             </repeat>
               
              </view>
@@ -106,69 +105,118 @@
 
          </van-tabs>
       </view>
-      
-      <!-- <view class="data_more">
-         更多
-      </view> -->
+      <view wx:if="{{is_loading}}" class="data_more">
+          <van-loading />
+      </view>
+    
+     <van-toast id="van-toast" />
   </view>
 
 </template>
 
 <script>
   import wepy from 'wepy'
-  import { connect } from 'wepy-redux'
-  import Toast from 'wepy-com-toast'
+
   import TaskBar from '../../components/taskbar/TaskBar';
   import MineTaskBar from '../../components/minetaskbar/MineTaskBar';
-  @connect({
-    num (state) {
-      return state.counter.num
-    },
-    asyncNum (state) {
-      return state.counter.asyncNum
-    },
-    sumNum (state) {
-      return state.counter.num + state.counter.asyncNum
-    }
-  })
+  import {taskList,selectReceive} from '../../api/task';
+  import {SCHOOL,OPENID} from '../../config/common';
+  import Toast from '../../miniprogram_npm/vant-weapp/toast/toast';
+ import {SETPAGE} from '../../store/types/index'
 
   export default class Index extends wepy.page {
     config = {
     
-        enablePullDownRefresh:true,
+      enablePullDownRefresh:true,
       "usingComponents": {
          "van-tab": "/miniprogram_npm/vant-weapp/tab/index",
-         "van-tabs": "/miniprogram_npm/vant-weapp/tabs/index"
+         "van-tabs": "/miniprogram_npm/vant-weapp/tabs/index",
+         "van-toast": "/miniprogram_npm/vant-weapp/toast/index",
+          "van-loading": "/miniprogram_npm/vant-weapp/loading/index"
+
       }
     }
     components={
       TaskBar:TaskBar,
       MineTaskBar:MineTaskBar
     }
+    onLoad(){
+ 
+    
+    }
+
+    onPullDownRefresh(){
+      let school=  wepy.getStorageSync(SCHOOL)
+      this.methods.homeLoad(school.id,this,wepy.stopPullDownRefresh);
+    }
+
+    onReachBottom(){
+     
+      //底部刷新下一页
+      let school=  wepy.getStorageSync(SCHOOL)
+      let page=wepy.$store.getState().common.page+1;
+  
+      this.is_loading=true;
+      taskList({ page:page, schoolId:school.id, size:8}).then(res=>{
+         this.is_loading=false;
+         this.$apply();
+        if(res.statusCode===200){
+          if(res.data.length>0){
+                    this.taskdata= this.taskdata.concat(res.data);
+                          this.$apply();
+                          wepy.$store.dispatch({type:SETPAGE,payload:page})
+           }else{
+              Toast("已经是最底页了！")
+           }
+                         
+                   }else{
+                        Toast.fail('网络异常');
+                   }
+      })
+   }
      onShow(){
+      
+
       //  let query = wepy.createSelectorQuery();
       //   query.select(".task_list").boundingClientRect(
       //     res=>{
       //      console.log(res)
       //     }
       //   ).exec()  
+
+      //防止未及时跳转登录页面
+      let that=this;
+      let openid=wepy.getStorageSync(OPENID)
+      if(openid){
+         let school=  wepy.getStorageSync(SCHOOL)
+          if(!school && !school.id){
+             wepy.navigateTo({
+            url:'/pages/school/school'
+          })
+        } else{
+             
+              this.methods.homeLoad(school.id,this);
+          }
        
-		
+      }else{
+         wepy.navigateTo({
+            url:'/pages/login/login'
+          })
+      }
+
+
+     
      }
     data={
-       taskdata:{
-         avatar:'/static/img/30.jpg',
-         name:'华为音响',
-         kg:'0.5KG',
-         price:'2RMB',
-         isnew:true
-       },
+       taskdata:[],
 
-       minedata:{
-          avatar:'/static/img/30.jpg',
-         name:'小桌子',
-         kg:'25KG',
-         price:'5RMB'
+       minedata:[],
+       is_loading:false
+    }
+
+    computed={
+       school(){
+         return wepy.getStorageSync(SCHOOL)
        }
     }
 
@@ -177,6 +225,30 @@
         wepy.navigateTo({
           url:'/pages/school/school'
         })
+      },
+     async homeLoad(id,that,callback){
+        //首页刷新
+        let resTask= await  taskList({ page:1, schoolId:id, size:8});
+         if(resTask.statusCode===200){
+                          that.taskdata=resTask.data;
+                          that.$apply();
+                           wepy.$store.dispatch({type:SETPAGE,payload:1})
+                   }else{
+                        Toast.fail('网络异常');
+                   }
+                 let openid=  wepy.getStorageSync(OPENID);
+                let resReceive=await selectReceive({openid:openid})  
+                 if(resReceive.statusCode===200){
+                   that.minedata=resReceive.data;
+                    that.$apply();
+                    if(callback){
+                            //停止下拉刷新动画
+                            callback();
+                          }
+                 } else{
+                    Toast.fail('网络异常');
+                 }    
+                 
       }
     }
   }

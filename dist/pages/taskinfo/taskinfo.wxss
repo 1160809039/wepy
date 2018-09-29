@@ -1,0 +1,63 @@
+.container {
+  height: 100%;
+  background: #fff;
+  font-size: 13px;
+  padding: 10px 15px;
+  box-sizing: border-box;
+}
+.taskinfo_wrapper {
+  padding: 10px 0px;
+  color: #999;
+}
+.taskinfo_title {
+  padding: 10px 10px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+}
+.taskinfo_wrapper > view {
+  padding: 10px 10px;
+}
+.task_wait {
+  color: #F56C6C;
+}
+.task_hand {
+  color: #409EFF;
+}
+.footer_take {
+  height: 50px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #409EFF;
+  color: #fff;
+  font-size: 15px;
+}
+.footer_cancel {
+  height: 50px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #F56C6C;
+  color: #fff;
+  font-size: 15px;
+}
+.footer_mine {
+  display: flex;
+  justify-content: space-around;
+}
+.footer_mine > view {
+  width: 40%;
+}
+.footer_end {
+  height: 50px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #409EFF;
+  color: #fff;
+  font-size: 15px;
+}

@@ -1,0 +1,29 @@
+
+  <view class="container">
+     <form>
+      <view class="address_name">
+        <input bindinput="consigneeNameInput" value="{{consigneeName}}" placeholder="收货人姓名" placeholder-class="address_name_placeholder" focus/>
+
+      </view>
+      <view class="address_name">
+        <input bindinput="mobileInput" value="{{mobile}}" placeholder="收货人手机号" placeholder-class="address_name_placeholder" type="number"/>
+      </view>
+
+       <view class="address_name address_center">
+
+         <Text>设为默认地址</Text>
+         <van-switch checked="{{ checked }}"  bind:change="onChange"/>
+      </view>
+       <view class="address_name">
+        <input bindinput="branchcourtsInput" value="{{branchcourts}}" placeholder="分院名称" placeholder-class="address_name_placeholder"/>
+      </view>
+       <view class="address_name">
+        <input bindinput="departmentnameInput" value="{{departmentname}}" placeholder="院系(专业)" placeholder-class="address_name_placeholder"/>
+       </view>
+        <view class="address_name">
+        <textarea bindinput="specificaddressInput" value="{{specificaddress}}" placeholder="具体地址" placeholder-class="address_name_placeholder"/>
+       </view>
+       <van-button size="large" bindtap="save">保存</van-button>
+     </form>
+     <van-notify id="custom-selector"/>
+  </view>

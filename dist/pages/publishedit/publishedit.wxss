@@ -1,0 +1,52 @@
+.container {
+  height: 100%;
+  background: #eee;
+}
+form {
+  background: #fff;
+  display: block;
+  font-size: 12px;
+}
+.publish_name {
+  margin-left: 20px;
+  padding: 5px 0;
+  font-size: 12px;
+  border-bottom: 1px #eee solid;
+}
+.publish_name_placeholder {
+  color: #999;
+}
+.publish_name input {
+  height: 40px;
+}
+.publish_num {
+  margin-left: 20px;
+  align-items: center;
+  font-size: 12px;
+  border-bottom: 1px #eee solid;
+  display: flex;
+  height: 50px;
+  justify-content: space-between;
+}
+.publish_num_input {
+  display: flex;
+  align-items: center;
+  width: 60px;
+  padding-right: 15px;
+  color: #999;
+}
+.separator_line {
+  height: 10px;
+  background: #eee;
+}
+.publish_place {
+  height: 50px;
+  line-height: 50px;
+  margin-left: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 15px;
+}
+.publish_place_value {
+  color: #999;
+}

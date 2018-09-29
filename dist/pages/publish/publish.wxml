@@ -1,0 +1,47 @@
+
+  <view class="container">
+   <form>
+     <view class="publish_name">
+        <input bindinput="taskNameInput" placeholder="请输入快递名称" placeholder-class="publish_name_placeholder" focus/>
+     </view>
+      <view class="publish_num">
+       <span>代拿价格</span>  
+         <view class="publish_num_input"> 
+          <input bindinput="taskPriceInput" type="number" value="1"/> RMB
+         </view> 
+      </view>
+      <view class="publish_num">
+        <span>快递重量</span> 
+         <view class="publish_num_input"> 
+          <input bindinput="taskWeightInput" type="number" value="1"/> KG
+         </view> 
+      </view>
+       
+
+       <view class="separator_line">
+       </view>
+
+       <view class="publish_place" bindtap="toAdressList">
+         <view>
+           收货地址
+           <span class="fa fa-map-marker"/>  
+         </view>
+         <view class="publish_place_value">
+           {{address}}
+         </view>
+       </view>
+
+       <view class="separator_line">
+       </view>
+
+       <view class="publish_name">
+        <input bindinput="consigneeNameInput" value="{{consigneeName}}" placeholder="请输入收货人名字" placeholder-class="publish_name_placeholder"/>
+       </view>
+
+        <view class="publish_name">
+         <input bindinput="consigneeMobileInput" value="{{consigneeMobile}}" placeholder="请输入收货人手机号" type="number" placeholder-class="publish_name_placeholder"/>
+        </view>
+    <van-button size="large" bindtap="save">保存</van-button>
+     <van-notify id="custom-selector"/>
+   </form>
+  </view>

@@ -1,0 +1,84 @@
+.container {
+  min-height: 100%;
+  background: #eee;
+}
+.address_header {
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  background: #ffffff;
+  font-size: 12px;
+  position: relative;
+}
+.address_header navigator {
+  position: absolute;
+  right: 20px;
+  width: 50px;
+  top: 0;
+}
+.address_wrapper {
+  min-height: 50px;
+  background: #ffffff;
+  font-size: 12px;
+  border-top: 1px solid #eee;
+  padding: 10px 0 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  overflow: hidden;
+}
+.address_content {
+  margin-right: 0;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  margin-left: -90px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.del {
+  background-color: orangered;
+  width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  padding: 0 10px;
+}
+.touch-move-active .address_content,
+.touch-move-active .del {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+.address_desc {
+  display: flex;
+  flex-direction: column;
+}
+.address_user {
+  font-size: 13px;
+}
+.address_phone {
+  margin-left: 10px;
+  font-size: 11px;
+  color: #999;
+}
+.address_info {
+  margin-top: 5px;
+}
+.address_edit {
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.address_default {
+  padding: 1px 3px;
+  background: #FF4444;
+  color: #fff;
+}

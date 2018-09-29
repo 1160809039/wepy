@@ -15,6 +15,7 @@ form{
 .address_name{
     margin-left: 20px;
     font-size: 12px;
+    height: 50px;
     border-bottom: #eee 1px solid;
 }
 .address_name input{
@@ -27,57 +28,204 @@ form{
 .address_name_placeholder{
      color: #999;
 }
+.address_center{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 20px;
+  color: #999;
+}
 </style>
 <template>
   <view class="container">
      <form>
       <view class="address_name">
-        <input placeholder="收货人姓名" placeholder-class="address_name_placeholder" focus />
+        <input  bindinput="consigneeNameInput" value={{consigneeName}} placeholder="收货人姓名" placeholder-class="address_name_placeholder" focus />
+
       </view>
       <view class="address_name">
-        <input placeholder="收货人手机号" placeholder-class="address_name_placeholder" type="number" />
+        <input bindinput="mobileInput" value={{mobile}} placeholder="收货人手机号" placeholder-class="address_name_placeholder" type="number" />
+      </view>
+
+       <view class="address_name address_center">
+
+         <Text>设为默认地址</Text>
+         <van-switch checked="{{ checked }}" bind:change="onChange" />
       </view>
        <view class="address_name">
-        <input placeholder="分院名称" placeholder-class="address_name_placeholder" />
+        <input  bindinput="branchcourtsInput" value={{branchcourts}} placeholder="分院名称" placeholder-class="address_name_placeholder" />
       </view>
        <view class="address_name">
-        <input placeholder="院系(专业)" placeholder-class="address_name_placeholder"/>
+        <input  bindinput="departmentnameInput" value={{departmentname}} placeholder="院系(专业)" placeholder-class="address_name_placeholder"/>
        </view>
         <view class="address_name">
-        <textarea  placeholder="具体地址" placeholder-class="address_name_placeholder"/>
+        <textarea  bindinput="specificaddressInput"  value={{specificaddress}}  placeholder="具体地址" placeholder-class="address_name_placeholder"/>
        </view>
        <van-button size="large" @tap="save">保存</van-button>
      </form>
+     <van-notify id="custom-selector" />
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import { connect } from 'wepy-redux'
   import Toast from 'wepy-com-toast'
-
-  @connect({
-    num (state) {
-      return state.counter.num
-    },
-    asyncNum (state) {
-      return state.counter.asyncNum
-    },
-    sumNum (state) {
-      return state.counter.num + state.counter.asyncNum
-    }
-  })
-
+  import {saveAddress,selectAddress,editAddress} from '../../../api/address'
+  import Notify from '../../../miniprogram_npm/vant-weapp/notify/notify';
+  import {OPENID} from '../../../config/common';
   export default class AddressEdit extends wepy.page {
     config = {
        "usingComponents": {
-         "van-button": "/miniprogram_npm/vant-weapp/button/index"
+         "van-button": "/miniprogram_npm/vant-weapp/button/index",
+         "van-switch": "/miniprogram_npm/vant-weapp/switch/index",
+          "van-notify": "/miniprogram_npm/vant-weapp/notify/index"
       }
+      
+    }
+    data={
+        checked: true,
+        consigneeName:"",
+        mobile:"",
+        isdefault:"0",
+        branchcourts:"",
+        departmentname:"",
+        specificaddress:"",
+        id:0
     }
     methods={
-        save(){
-            wepy.navigateBack()
-        }
+      async  save(){
+              
+              let success= this.methods.validata(this);
+              if(success){
+                 let param={};
+                 param.consigneeName=this.consigneeName;
+                 param.mobile=this.mobile;
+                 param.isdefault=this.isdefault;
+                 param.branchcourts=this.branchcourts;
+                 param.departmentname=this.departmentname;
+                 param.specificaddress=this.specificaddress;
+                 let openid=wepy.getStorageSync(OPENID)
+                 param.openid=openid;
+               //有id是编辑，没有的是保存
+               if(this.id){
+                   param.id=this.id;
+                    let res=await editAddress(param);
+                      if(res.statusCode===200&&res.data.id){
+                    
+                          wepy.navigateBack()
+                      }else{
+                        this.methods.notify("保存失败，请重试!!!")
+                      }
+               }else{
+                     let res=await saveAddress(param);
+                      if(res.statusCode===200&&res.data.id){
+                    
+                          wepy.navigateBack()
+                      }else{
+                        this.methods.notify("保存失败，请重试!!!")
+                      }
+               }
+          
+            // wepy.navigateBack()
+              }
+               
+        },
+          onChange(event) {
+           // 需要手动对 checked 状态进行更新
+           this.checked= event.detail;
+           if(this.checked){
+             this.isdefault="0"
+           }else{
+             this.isdefault="1"
+           }
+         },
+         consigneeNameInput(e){
+          
+             this.consigneeName=e.detail.value;
+         },
+         mobileInput(e){
+            this.mobile=e.detail.value;
+         },
+         branchcourtsInput(e){
+            this.branchcourts=e.detail.value;
+         },
+         departmentnameInput(e){
+            this.departmentname=e.detail.value;
+         },
+         specificaddressInput(e){
+             this.specificaddress=e.detail.value;
+         },
+         validata(that){
+      
+               if(!that.consigneeName){
+              
+                    this.notify("收货人不能为空")
+                     return false;
+                   }
+                    if(!that.mobile){
+                      this.notify("手机号不能为空")
+                     return false;
+                   }else{
+                       if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(that.mobile))){
+                          this.notify("手机号格式不正确")
+                          return false;
+                       }
+                   if(!that.branchcourts){
+                      this.notify("分院不能为空")
+                     return false;
+                   }
+                    if(!that.departmentname){
+                      this.notify("院系不能为空")
+                     return false;
+                   }
+                    if(!that.specificaddress){
+                      this.notify("具体地址不能为空")
+                     return false;
+                   }
+                   
+                   }
+                   return true;
+         },
+         notify(msg){
+                     Notify({
+                      text: msg,
+                      duration: 2000,
+                      selector: '#custom-selector',
+                      backgroundColor: '#F56C6C'
+                     });
+         }
+
+
+    }
+
+
+   async onLoad(param){
+
+     //路由中有id参数的是编辑，加载数据
+     if(param.id){
+       wepy.showLoading({
+          title:'加载中',
+           mask:true
+        })
+         let res=await selectAddress({id:param.id});
+      
+         if(res.statusCode===200&&res.data.id){
+              this.id=res.data.id;
+              this.consigneeName=res.data.consignee_name;
+              this.mobile=res.data.consignee_mobile;
+              this.branchcourts=res.data.branch_courts;
+              this.departmentname=res.data.department_name;
+              this.specificaddress=res.data.specific_address;
+      
+              if(res.data.is_default==0){
+                this.checked=true
+              }else{
+                this.checked=false
+              }
+              this.$apply();
+         }
+         wepy.hideLoading();
+     }
     }
   
   }

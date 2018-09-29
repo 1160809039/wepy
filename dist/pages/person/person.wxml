@@ -1,0 +1,26 @@
+
+  <view class="container">
+   <view class="person_avatar">
+       <image src="{{getUser.userinfo.avatarUrl}}"/>
+       <Text>
+           {{getUser.userinfo.nickName}}
+        </Text>
+
+   </view>
+
+   <view class="person_action">
+       <view class="person_task" bindtap="toMinePublish">
+          进行中任务
+          <Text class="fa fa-angle-right"/>
+       </view>
+        <view class="person_task" bindtap="toTaskEnd">
+          已完结任务
+          <Text class="fa fa-angle-right"/>
+       </view>
+        <view class="person_task" bindtap="toAdressList">
+          收货地址
+           <Text class="fa fa-angle-right"/>
+       </view>
+   </view>  
+ 
+  </view>

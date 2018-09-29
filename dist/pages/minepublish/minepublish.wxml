@@ -1,0 +1,104 @@
+
+  <view class="container">
+       <view  wx:if="{{tabshow==0}}" class="minepublish_complete">
+            
+            <block wx:for="{{confirmData}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+               
+    <view class="minepublish_complete_card">
+               <view class="minepublish_complete_left">
+                  <View class="minepublish_complete_info">
+                
+                 <View>
+                   <Text class="fa fa-check-circle-o"/> 
+                   {{item.task_name}}
+                  </View>
+                   <View class="minepublish_complete_kg">
+                   {{item.task_weight}}KG
+                  </View>
+                   <View class="minepublish_complete_price">
+                   {{item.task_price}}￥
+                  </View>
+                  
+               </View>
+                 <View class="minepublish_complete_person">
+                      <image class="taskbar_avatar" src="{{item.user.avatar_url}}"/>
+                      <Text>{{item.user.nick_name}} 确认抵达</Text>
+                  </View>
+                   <View class="minepublish_complete_date">
+                      {{item.modified_time}}
+                  </View>
+                 </view>
+                 <view class="minepublish_complete_right">
+                    <view class="minepublish_complete_btn" bindtap="$ConfirmCard$confirmEnd" data-com-index="{{index}}" data-wpyconfirmend-a="{{item.id}}"> 完成</view>
+                 </view>
+              
+            </view>
+
+         </block>
+       </view>
+
+
+       <view  wx:if="{{tabshow==1}}" class="minepublish_wait">
+
+          <block wx:for="{{taskData}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+             
+    <view class="minepublish_wait_card">
+                  <view class="minepublish_wait_title">
+                     <Text>{{item.task_name}}</Text>
+                     <Text class="minepublish_gray">{{item.create_time}}</Text>
+                  </view>
+
+                   <view class="minepublish_wait_place">
+                     <Text>收货地址</Text>
+                      <Text class="fa fa-map-marker"/>
+                       <Text class="minepublish_gray">
+                         {{item.branch_courts}} {{item.department_name}} {{item.specific_address}}
+                       </Text>
+                  </view>
+
+                   <view class="minepublish_wait_user">
+                     <Text>收货人</Text>
+                      <Text class="minepublish_gray">  {{item.consignee_name}}</Text>
+                       <Text class="minepublish_gray">
+                          {{item.consignee_mobile}}
+                       </Text>
+                  </view>
+
+                   <view class="minepublish_wait_info minepublish_gray">
+                      <view>
+                        {{item.task_weight}}KG
+                       </view>
+                       <view>
+                          {{item.task_price}}￥
+                       </view>
+              
+                   </view>
+
+                    <view class="minepublish_wait_ctr"  wx:if="{{item.state==0}}">
+                      <view class="minepublish_wait_delete" bindtap="$PublishCard$deleteTask" data-com-index="{{index}}" data-wpydeletetask-a="{{item.id}}">
+                        删除
+                       </view>
+                       <view class="minepublish_wait_edit" bindtap="$PublishCard$toEdit" data-com-index="{{index}}">
+                         修改
+                       </view>
+              
+                   </view>
+
+                    <view class="minepublish_wait_ctr"  wx:if="{{item.state==1}}">
+                     
+                      
+                         进行中
+                       <span class="fa fa-spinner"/>
+                   </view>
+             </view>
+
+          </block>
+            
+       </view>
+
+<van-dialog id="van-dialog"/>
+     <van-tabbar active="{{ active }}"  bind:change="onChange">
+        <van-tabbar-item icon="passed" info="{{infocount}}">已完成</van-tabbar-item>
+        <van-tabbar-item icon="clock">等待中</van-tabbar-item>
+     </van-tabbar>
+  </view>

@@ -1,0 +1,59 @@
+.minepublish_complete_card {
+  min-height: 50px;
+  background: #fff;
+  border-top: 15px solid #eee;
+  padding: 10px 35px 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.minepublish_complete_info {
+  display: flex;
+  justify-content: flex-start;
+}
+.minepublish_complete_info view {
+  margin-right: 10px;
+}
+.fa-check-circle-o {
+  color: #58D456;
+}
+.minepublish_complete_kg {
+  padding: 0px 4px ;
+  background: #ff9900;
+  font-size: 9px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.minepublish_complete_price {
+  padding: 0px 4px ;
+  background: #F56C6C;
+  font-size: 9px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.minepublish_complete_person {
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  color: #999;
+}
+.minepublish_complete_person image {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  margin-right: 10px;
+}
+.minepublish_complete_date {
+  color: #999;
+  padding-left: 40px;
+}
+.minepublish_complete_btn {
+  background: #409EFF;
+  color: #fff;
+  border-radius: 3px;
+  padding: 6px 15px;
+}

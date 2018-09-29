@@ -1,0 +1,146 @@
+@import "./../../components/overtip/OverTip.wxss";
+.container {
+  min-height: 100%;
+  background: #eee;
+  padding-top: 15px;
+  box-sizing: border-box;
+}
+.minepublish_complete {
+  font-size: 12px;
+  padding-bottom: 100px;
+}
+.minepublish_wait {
+  margin: 0px 15px;
+  padding-bottom: 100px;
+}
+.minepublish_complete_card {
+  min-height: 50px;
+  background: #fff;
+  border-top: 15px solid #eee;
+  padding: 10px 35px 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.minepublish_complete_info {
+  display: flex;
+  justify-content: flex-start;
+}
+.minepublish_complete_info view {
+  margin-right: 10px;
+}
+.fa-check-circle-o {
+  color: #58D456;
+}
+.minepublish_complete_kg {
+  padding: 0px 4px ;
+  background: #409EFF;
+  font-size: 9px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.minepublish_complete_price {
+  padding: 0px 4px ;
+  background: #58D456;
+  font-size: 9px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.minepublish_complete_person {
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  color: #999;
+}
+.minepublish_complete_person image {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  margin-right: 10px;
+}
+.minepublish_complete_date {
+  color: #999;
+  padding-left: 40px;
+}
+.minepublish_complete_btn {
+  background: #409EFF;
+  color: #fff;
+  border-radius: 3px;
+  padding: 6px 15px;
+}
+.minepublish_wait {
+  margin: 0px 15px;
+}
+.minepublish_wait_card {
+  font-size: 12px;
+  position: relative;
+  background: #fff;
+  border-radius: 5px;
+  padding: 15px 15px;
+  margin-bottom: 15px;
+}
+.minepublish_wait_title {
+  display: flex;
+  justify-content: space-between;
+}
+.minepublish_wait_place {
+  padding: 15px 0;
+}
+.minepublish_wait_place Text {
+  margin-right: 8px;
+}
+.minepublish_wait_user Text {
+  margin-right: 8px;
+}
+.minepublish_gray {
+  color: #999;
+}
+.minepublish_wait_info {
+  padding: 15px 0;
+  display: flex;
+}
+.minepublish_wait_info view {
+  margin-right: 15px;
+}
+.minepublish_wait_ctr {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+.minepublish_wait_ctr view {
+  margin-left: 15px;
+}
+.minepublish_wait_delete {
+  background: #F56C6C;
+  color: #fff;
+  padding: 6px 15px;
+  border-radius: 5px;
+}
+.minepublish_wait_edit {
+  background: #409EFF;
+  color: #fff;
+  padding: 6px 15px;
+  border-radius: 5px;
+}
+.fa-spinner {
+  color: #58D456;
+  margin-right: 10px;
+}
+.data_more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.data_more van-loading {
+  position: absolute;
+  top: 10px;
+}

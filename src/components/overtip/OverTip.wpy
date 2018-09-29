@@ -1,0 +1,36 @@
+<style type="less">
+.over_tip{
+    border: 1px #eee solid;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotateZ(30deg);
+    position: relative;
+}
+.over_tip_line{
+    background: #eee;
+    width: 60px;
+    height: 2px;
+    position: absolute
+}
+</style>
+
+<template>
+     <view class="over_tip" >
+                        <Text class="over_tip_line"></Text> 
+                        完成
+                    </view>
+</template>
+
+
+<script>
+import wepy from 'wepy'
+export default  class OverTip extends wepy.component{
+ 
+ 
+}
+</script>
+

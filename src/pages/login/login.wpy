@@ -1,0 +1,78 @@
+<style lang="less">
+.container{
+    height: 100%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+}
+button{
+    font-size: 13px;
+}
+
+</style>
+<template>
+  <view class="container">
+        <button  open-type="getUserInfo"   bindgetuserinfo="bindGetUserInfo">点击登录</button>  
+    <van-toast id="van-toast" />
+  </view>
+  
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import {USERADD} from '../../store/types/user'
+  import Toast from '../../miniprogram_npm/vant-weapp/toast/toast';
+   import {OPENID} from '../../config/common'
+   import {getOpenId,login} from '../../api/user'
+  export default class Login extends wepy.page {
+    config = {
+       "usingComponents": {
+       "van-toast": "/miniprogram_npm/vant-weapp/toast/index"
+      }
+      
+    }
+    onLoad(){
+    
+    }
+    methods={
+       async  bindGetUserInfo(res){
+       wepy.$store.dispatch({type:USERADD,payload:res.detail.userInfo})
+
+      //  微信登录获取code
+       let resLogin= await wepy.login();
+
+         
+      //  根据code去获取openid
+          let resOpenId= await getOpenId({
+            code:resLogin.code
+          }) 
+         if(resOpenId.statusCode===200){
+            
+             let openid= resOpenId.data.openid;
+
+              //  执行自己的登录流程
+             let resL= await login({
+               openid:openid,
+               avatar:res.detail.userInfo.avatarUrl,
+               nickname:res.detail.userInfo.nickName
+               })
+             
+                console.log(resL.statusCode===200&&resL.data.openid)
+                if(resL.statusCode===200&&resL.data.openid){
+                   wepy.setStorageSync(OPENID, resL.data.openid);
+                   wepy.switchTab({
+                      url:'/pages/index/index'
+                    })  
+                }else{
+                   Toast.fail('网络异常');
+                }
+            
+          }
+        }
+    }
+  
+  
+  }
+</script>

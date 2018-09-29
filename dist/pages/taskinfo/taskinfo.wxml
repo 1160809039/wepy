@@ -1,0 +1,53 @@
+
+  <view class="container">
+
+      <view class="taskinfo_title">
+         <Text>{{taskdata.task_name}}</Text>
+
+          <view  wx:if="{{ismine}}" class="task_hand">
+            
+             <Text class="fa fa-bullseye"/>
+            已接取
+          </view>
+
+          <View  wx:else class="task_wait">
+            <Text class="fa fa-dot-circle-o"/>
+            等待中
+        
+          </View>
+      </view>
+       <view class="taskinfo_wrapper">
+          <view>
+              重量： {{taskdata.task_weight}}KG
+          </view>   
+           <view>
+              价格： {{taskdata.task_price}}￥
+          </view>    
+           <view>
+              发布人： {{nickName}}
+          </view>   
+              <view wx:if="{{ismine}}">
+                收货人： {{consignee_name}}
+             </view> 
+             <view wx:if="{{ismine}}">
+                收货人手机号： {{consignee_mobile}}
+             </view> 
+        
+           <view>
+              发布时间：  {{taskdata.create_time}}
+          </view> 
+          <view>
+              地址： {{address}}
+          </view>  
+         
+       </view>
+       <view wx:if="{{ismine}}" class="footer footer_mine">
+         <view class="footer_end" bindtap="endTask">完成任务</view>
+          <view class="footer_cancel" bindtap="cancelTask">取消任务</view>
+       </view>
+       <view wx:else class="footer">
+         <view class="footer_take" bindtap="receiveTask" data-wpyreceivetask-a="{{taskdata.user_id}}" data-wpyreceivetask-b="{{taskdata.id}}">接单</view>
+       </view>
+       
+      <van-toast id="van-toast"/>
+     </view>

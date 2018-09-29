@@ -1,0 +1,9 @@
+
+  <view class="container">
+
+      <view class="school_title">
+          选择学校
+      </view>    
+       <van-tree-select items="{{ items }}" main-active-index="{{ mainActiveIndex }}" maxHeight="500" active-id="{{ activeId }}"  bind:click-nav="onClickNav" bind:click-item="onClickItem"/>
+    
+  </view>

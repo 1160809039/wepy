@@ -66,15 +66,15 @@
 </style>
 
 <template>
-    <view class="taskbar_wrapper" @tap="toTaskInfo">
+    <view class="taskbar_wrapper" @tap="toTaskInfo('{{taskdata.task_id}}','{{taskdata.id}}')">
           <Text>
-           <image class="taskbar_avatar" src="{{taskdata.avatar}}"/>
+           <image class="taskbar_avatar" src="{{taskdata.user_avatar}}"/>
          </Text>
        <view class="taskbar_container">
         
-         <Text>{{taskdata.name}}</Text>
-         <Text>{{taskdata.kg}}</Text>
-         <Text>{{taskdata.price}}</Text>
+         <Text>{{taskdata.task_name}}</Text>
+         <Text>{{taskdata.task_weight}}KG</Text>
+         <Text>{{taskdata.task_price}}￥</Text>
          <Text class="fa fa-dot-circle-o minetask_icon"></Text>
        </view> 
 
@@ -93,9 +93,9 @@ export default  class MineTaskBar extends wepy.component{
       }
   }
    methods={
-      toTaskInfo(){
+      toTaskInfo(taskId,receiveId){
           wepy.navigateTo({
-              url:'/pages/taskinfo/taskinfo'
+              url:'/pages/taskinfo/taskinfo?type=mine&taskId='+taskId+'&receiveId='+receiveId
           })
       }
   }

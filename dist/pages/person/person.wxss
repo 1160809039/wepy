@@ -1,0 +1,34 @@
+.container {
+  background: #eee;
+  height: 100%;
+}
+.person_avatar {
+  background: #fff;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.person_action {
+  background: #fff;
+  margin-top: 15px;
+  font-size: 13px;
+}
+.person_avatar image {
+  height: 100px;
+  width: 100px;
+  border-radius: 50px;
+}
+.person_task {
+  margin-left: 20px;
+  border-bottom: 1px solid #eee;
+  height: 40px;
+  line-height: 40px;
+  position: relative;
+}
+.person_task Text {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+}

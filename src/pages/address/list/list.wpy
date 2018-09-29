@@ -1,7 +1,8 @@
 <style lang="less">
 .container{
-    height: 100%;
+    min-height: 100%;
     background: #eee;
+  
 }
 .address_header{
     height: 50px;
@@ -17,38 +18,219 @@
     width: 50px;
     top:0;
 }
+.address_wrapper{
+  min-height: 50px;
+  background: #ffffff;
+  font-size: 12px;
+  border-top:1px solid #eee; 
+  padding: 10px 0 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  overflow: hidden;
+}
+.address_content{
+  margin-right:0;
+-webkit-transition: all 0.4s;
+  transition: all 0.4s;
+ -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  margin-left: -90px;
+  width: 100%;
+    display: flex;
+  justify-content: space-between;
+}
+.del{
+background-color: orangered;
+width: 60px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+color: #fff;
+-webkit-transform: translateX(90px);
+transform: translateX(90px);
+-webkit-transition: all 0.4s;
+transition: all 0.4s;
+padding: 0 10px;
+
+}
+.touch-move-active .address_content,
+.touch-move-active .del {
+-webkit-transform: translateX(0);
+transform: translateX(0);
+}
+.address_desc{
+   display: flex;
+   flex-direction: column;
+
+
+}
+.address_user{
+  font-size: 13px;
+}
+.address_phone{
+  margin-left: 10px;
+  font-size: 11px;
+  color: #999;
+}
+.address_info{
+  margin-top: 5px;
+}
+.address_edit{
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.address_default{
+  padding: 1px 3px;
+  background: #FF4444;
+  color: #fff;
+
+}
 </style>
 <template>
   <view class="container">
    <view class="address_header">
        我的收货地址
        <navigator url="/pages/address/edit/edit" hover-class="none" open-type="navigate">添加地址</navigator>
+
    </view>
+
+
+    <repeat  for="{{addressData}}" key="item.id" index="index" item="item">
+      <view class="address_wrapper {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}"   @touchstart="touchstart" @touchmove="touchmove">
+        <view class="address_content">
+           <view class="address_desc" @tap="changeAddress('{{item.id}}')">
+          <view class="address_user">
+              <Text>{{item.consignee_name}}</Text>
+              <Text class="address_phone">{{item.consignee_mobile}}</Text>
+          </view>
+          <view class="address_info">
+             <Text wx:if="{{item.is_default==0}}" class="address_default">默认</Text> {{item.branch_courts}} {{item.department_name}} {{item.specific_address}}
+          </view>
+        </view>
+        <view class="address_edit" @tap="toEidt('{{item.id}}')">
+          编辑
+        </view>
+        </view>
+         <view class="del" data-index="{{index}}" @tap="delete('{{item.id}}')">
+          删除
+        </view>
+      </view>
+ </repeat>
+
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import { connect } from 'wepy-redux'
   import Toast from 'wepy-com-toast'
-
-  @connect({
-    num (state) {
-      return state.counter.num
-    },
-    asyncNum (state) {
-      return state.counter.asyncNum
-    },
-    sumNum (state) {
-      return state.counter.num + state.counter.asyncNum
-    }
-  })
-
+  import {addressList,deleteAddress} from '../../../api/address'
+  import {OPENID} from '../../../config/common';
+  import {SETADDRESS} from '../../../store/types/index'
   export default class AddressList extends wepy.page {
     config = {
     
     
       
+    }
+   data={
+     addressData :[],
+     isChange:false
+   }
+
+   onLoad(option){
+
+      //标记这是选择地址情景
+      if(option.type=="change"){
+            this.isChange=true
+      }
+   }
+  async  onShow(){
+   
+    //加载地址列表
+       let openid=wepy.getStorageSync(OPENID)
+       let res= await addressList({openid:openid});
+       if(res.statusCode===200){
+         this.addressData=res.data;
+         this.addressData.forEach(function (v, i) {
+           v.isTouchMove=false;
+         })
+         this.$apply();
+       }
+    }
+
+   
+
+    methods={
+      //跳转编辑地址页面
+      toEidt(id){
+         wepy.navigateTo({
+            url:'/pages/address/edit/edit?id='+id
+          })
+      },
+      //选择地址
+      changeAddress(id){
+        if(this.isChange){
+            wepy.$store.dispatch({type:SETADDRESS,payload:id})
+            wepy.navigateBack()
+        }
+      },
+       touchstart(e){
+          this.startX=e.changedTouches[0].clientX;
+          this.startY= e.changedTouches[0].clientY;
+           this.addressData.forEach(function (v, i) {
+           v.isTouchMove=false;
+         })
+      },touchmove(e){
+          let that = this,
+           index = e.currentTarget.dataset.index,//当前索引
+           
+           startX = that.startX,//开始X坐标
+           startY = that.startY,//开始Y坐标
+           touchMoveX = e.changedTouches[0].clientX,//滑动变化坐标
+           touchMoveY = e.changedTouches[0].clientY,//滑动变化坐标
+           //获取滑动角度
+           angle = that.methods.angle({ X: startX, Y: startY }, { X: touchMoveX, Y: touchMoveY });
+        
+           that.addressData.forEach(function (v, i) {
+                       v.isTouchMove = false
+                     //滑动超过30度角 return
+                    
+                     if (Math.abs(angle) > 30)
+                        return;
+                     if (i == index) {
+                          if (touchMoveX > startX) //右滑
+                            v.isTouchMove = false
+                           else //左滑
+                             v.isTouchMove = true
+                          
+                        }
+               })
+               that.$apply();
+      
+       },angle(start, end) {
+                 var _X = end.X - start.X,
+                 _Y = end.Y - start.Y
+                //返回角度 /Math.atan()返回数字的反正切值
+                return 360 * Math.atan(_Y / _X) / (2 * Math.PI);
+            },
+          async  delete(id,e){
+               let res=await deleteAddress({id:id});
+               console.log(res)
+                console.log(res.statusCode===200&&res.data.id)
+               if(res.statusCode===200&&res.data.id){
+                  this.addressData.splice(e.currentTarget.dataset.index, 1)
+                  this.$apply();
+               }
+            
+                this.addressData.forEach(function (v, i) {
+                      v.isTouchMove=false;
+                   })
+            }
+
     }
   
   }

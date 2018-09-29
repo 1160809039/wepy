@@ -1,0 +1,16 @@
+@import "./../../components/confirmcard/ConfirmCard.wxss";
+@import "./../../components/publishcard/PublishCard.wxss";
+.container {
+  min-height: 100%;
+  background: #eee;
+  padding-top: 15px;
+  box-sizing: border-box;
+}
+.minepublish_complete {
+  font-size: 12px;
+  padding-bottom: 50px;
+}
+.minepublish_wait {
+  margin: 0px 15px;
+  padding-bottom: 50px;
+}

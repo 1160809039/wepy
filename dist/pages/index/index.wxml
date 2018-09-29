@@ -1,0 +1,89 @@
+
+  <view class="container">
+  
+             
+      <view class="task_school" bindtap="toSelectSchool">
+          {{school.text}}
+          <Text class="fa fa-exchange"/>
+       </view>
+      <view class="task_wrapper">
+
+         <van-tabs type="card" color="#409EFF">
+           <van-tab title="寻找任务">
+
+                 <view class="task_title">
+          <Text>
+            发布人
+          </Text>  
+            <Text>
+            任务
+           </Text>  
+            <Text>
+            重量
+          </Text>  
+           <Text>
+            价格
+           </Text>  
+       </view>
+      <scroll-view scroll-y scroll-with-animation="true">
+       <view class="task_list">
+
+         <block wx:for="{{taskdata}}" wx:for-index="index" wx:for-item="item" wx:key="item.id">
+           
+    <view class="taskbar_wrapper" bindtap="$TaskBar$toTaskInfo" data-com-index="{{index}}">
+       <view class="taskbar_container">
+          <Text>
+           <image class="taskbar_avatar" src="{{item.user_avatar}}"/>
+         </Text>
+         <Text>{{item.task_name}}</Text>
+         <Text>{{item.task_weight+'KG'}}</Text>
+         <Text>{{item.task_price+'￥'}}</Text>
+       </view> 
+       
+       <view  wx:if="{{item.isnew}}" class="task_new">
+          new
+       </view>   
+    </view>
+
+         </block>
+        
+     
+       </view>
+
+      </scroll-view>
+
+           </van-tab>
+           <van-tab title="已接任务">
+             
+             <view class="task_list">
+                <block wx:for="{{minedata}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+                
+    <view class="taskbar_wrapper" bindtap="$MineTaskBar$toTaskInfo" data-com-index="{{index}}" data-wpytotaskinfo-a="{{item.task_id}}" data-wpytotaskinfo-b="{{item.id}}">
+          <Text>
+           <image class="taskbar_avatar" src="{{item.user_avatar}}"/>
+         </Text>
+       <view class="taskbar_container">
+        
+         <Text>{{item.task_name}}</Text>
+         <Text>{{item.task_weight}}KG</Text>
+         <Text>{{item.task_price}}￥</Text>
+         <Text class="fa fa-dot-circle-o minetask_icon"/>
+       </view> 
+
+      <van-button/>
+    </view>
+
+            </block>
+              
+             </view>
+
+           </van-tab>
+
+         </van-tabs>
+      </view>
+      <view  wx:if="{{is_loading}}" class="data_more">
+          <van-loading/>
+      </view>
+    
+     <van-toast id="van-toast"/>
+  </view>

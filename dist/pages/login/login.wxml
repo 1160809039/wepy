@@ -1,0 +1,5 @@
+
+  <view class="container">
+        <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">点击登录</button>  
+    <van-toast id="van-toast"/>
+  </view>

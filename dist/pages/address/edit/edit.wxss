@@ -1,0 +1,36 @@
+.container {
+  height: 100%;
+  background: #eee;
+}
+form {
+  background: #fff;
+  display: block;
+}
+.address_header {
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+.address_name {
+  margin-left: 20px;
+  font-size: 12px;
+  height: 50px;
+  border-bottom: #eee 1px solid;
+}
+.address_name input {
+  height: 50px;
+}
+.address_name textarea {
+  height: 80px;
+  margin-top: 10px;
+}
+.address_name_placeholder {
+  color: #999;
+}
+.address_center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 20px;
+  color: #999;
+}

@@ -1,0 +1,161 @@
+<style type="less">
+ 
+.minepublish_wait{
+  margin: 0px 15px;
+}
+.minepublish_wait_card{
+
+  font-size: 12px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 15px 15px;
+  margin-bottom: 15px;
+}
+.minepublish_wait_title {
+  display: flex;
+  justify-content: space-between;
+}
+.minepublish_wait_place{
+  padding: 15px 0;
+}
+.minepublish_wait_place Text{
+  margin-right: 8px;
+}
+
+.minepublish_wait_user Text{
+  margin-right: 8px;
+}
+.minepublish_gray{
+  color: #999;
+}
+.minepublish_wait_info{
+  padding: 15px 0;
+  display: flex;
+}
+.minepublish_wait_info view{
+  margin-right: 15px;
+}
+.minepublish_wait_ctr{
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+.minepublish_wait_ctr view{
+  margin-left: 15px;
+}
+.minepublish_wait_delete{
+  background: #F56C6C;
+  color: #fff;
+  padding: 6px 15px;
+  border-radius: 5px;
+}
+.minepublish_wait_edit{
+  background: #409EFF;
+  color: #fff;
+  padding: 6px 15px;
+  border-radius: 5px;
+}
+.fa-spinner{
+   color: #58D456;
+   margin-right: 10px;
+}
+</style>
+
+<template>
+    <view class="minepublish_wait_card">
+                  <view class="minepublish_wait_title">
+                     <Text>{{taskdata.task_name}}</Text>
+                     <Text class="minepublish_gray">{{taskdata.create_time}}</Text>
+                  </view>
+
+                   <view class="minepublish_wait_place">
+                     <Text>收货地址</Text>
+                      <Text class="fa fa-map-marker"></Text>
+                       <Text class="minepublish_gray">
+                         {{taskdata.branch_courts}} {{taskdata.department_name}} {{taskdata.specific_address}}
+                       </Text>
+                  </view>
+
+                   <view class="minepublish_wait_user">
+                     <Text>收货人</Text>
+                      <Text class="minepublish_gray">  {{taskdata.consignee_name}}</Text>
+                       <Text class="minepublish_gray">
+                          {{taskdata.consignee_mobile}}
+                       </Text>
+                  </view>
+
+                   <view class="minepublish_wait_info minepublish_gray">
+                      <view>
+                        {{taskdata.task_weight}}KG
+                       </view>
+                       <view>
+                          {{taskdata.task_price}}￥
+                       </view>
+              
+                   </view>
+
+                    <view class="minepublish_wait_ctr" wx:if="{{taskdata.state==0}}">
+                      <view class="minepublish_wait_delete" @tap="deleteTask('{{taskdata.id}}')">
+                        删除
+                       </view>
+                       <view class="minepublish_wait_edit" @tap="toEdit">
+                         修改
+                       </view>
+              
+                   </view>
+
+                    <view class="minepublish_wait_ctr" wx:if="{{taskdata.state==1}}">
+                     
+                      
+                         进行中
+                       <span class="fa fa-spinner"></span>
+                   </view>
+             </view>
+</template>
+
+
+<script>
+import wepy from 'wepy'
+import {deleteTaskById} from '../../api/task'
+export default  class PublishCard extends wepy.component{
+
+   
+  props={
+      taskdata:{
+          type:Object
+      }
+  }
+   methods={
+      toEdit(){
+          wepy.navigateTo({
+            url:'/pages/publishedit/publishedit?id='+this.taskdata.id
+          })
+       }, 
+       //删除该任务
+      deleteTask(id){
+        wepy.showModal({
+            content:'确定删除？',
+            confirmColor:'#F56C6C'
+        }).then(async obj=>{
+          if(obj.confirm){
+             
+                 let res=await deleteTaskById({id:id});
+                  if(res.statusCode===200&&res.data.id){
+                     wepy.showToast({
+                       title:'删除成功'
+                     })
+                     //删除成功刷新父页面
+                     this.$emit('homeReflesh');
+                  }else{
+                     wepy.showToast({
+                       title:'删除失败'
+                     })
+                  }
+          }
+        })
+       }
+  }
+}
+</script>
+

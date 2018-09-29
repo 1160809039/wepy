@@ -1,0 +1,32 @@
+
+  <view class="container">
+   <view class="address_header">
+       我的收货地址
+       <navigator url="/pages/address/edit/edit" hover-class="none" open-type="navigate">添加地址</navigator>
+
+   </view>
+
+
+    <block wx:for="{{addressData}}" wx:for-index="index" wx:for-item="item" wx:key="item.id">
+      <view class="address_wrapper {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove">
+        <view class="address_content">
+           <view class="address_desc" bindtap="changeAddress" data-wpychangeaddress-a="{{item.id}}">
+          <view class="address_user">
+              <Text>{{item.consignee_name}}</Text>
+              <Text class="address_phone">{{item.consignee_mobile}}</Text>
+          </view>
+          <view class="address_info">
+             <Text  wx:if="{{item.is_default==0}}" class="address_default">默认</Text> {{item.branch_courts}} {{item.department_name}} {{item.specific_address}}
+          </view>
+        </view>
+        <view class="address_edit" bindtap="toEidt" data-wpytoeidt-a="{{item.id}}">
+          编辑
+        </view>
+        </view>
+         <view class="del" data-index="{{index}}" bindtap="delete" data-wpydelete-a="{{item.id}}">
+          删除
+        </view>
+      </view>
+ </block>
+
+  </view>

@@ -30,22 +30,10 @@
 
 <script>
   import wepy from 'wepy'
-  import { connect } from 'wepy-redux'
   import Toast from 'wepy-com-toast'
   import data from '../../config/schooldata'
-
-  @connect({
-    num (state) {
-      return state.counter.num
-    },
-    asyncNum (state) {
-      return state.counter.asyncNum
-    },
-    sumNum (state) {
-      return state.counter.num + state.counter.asyncNum
-    }
-  })
-
+  import {SCHOOL} from '../../config/common'
+  
   export default class School extends wepy.page {
     config = {
     "usingComponents": {
@@ -56,16 +44,27 @@
     }
     methods={
          onClickNav({ detail = {} }) {
+
+           //选择省份
     this.setData({
       mainActiveIndex: detail.index || 0
     });
   },
 
   onClickItem({ detail = {} }) {
+
+    //选择学校
     this.setData({
       activeId: detail.id
     });
-  }
+     wepy.setStorageSync(SCHOOL,detail)
+     
+      wepy.switchTab({
+              url:'/pages/index/index'
+            })
+   }
+   
+
     }
 
 
