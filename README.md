@@ -14,7 +14,8 @@ wepy开发的校园快递代拿小程序,ui框架使用了Vant weapp,功能包�
 
 <hr/>
 # 二维码
-<br/>
+小程序仅供参考，不投入实用！！！
+
 <div style="text-align:center">
   <img width="30%" src="http://p8c48bjkj.bkt.clouddn.com/gh_680f29785470_1280.jpg"/>
 </div>
