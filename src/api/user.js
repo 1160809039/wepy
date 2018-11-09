@@ -20,6 +20,22 @@ export const getOpenId=function(param){
 }
 
 
+export const getAceessToken=function(param){
+    return new Promise((resolve,reject)=>{
+        return wepy.request({
+            url: DOMAIN+'getAceessToken',
+            data: param,
+            method:'POST',
+            header: {
+              'content-type': 'application/json'
+              }
+        }).then(
+            res=>resolve(res)
+        ).catch(
+            res=>reject(res)
+        );
+    }) 
+}
 export const login=function(param){
     return new Promise((resolve,reject)=>{
         return wepy.request({
@@ -40,6 +56,24 @@ export const selectUser=function(param){
     return new Promise((resolve,reject)=>{
         return wepy.request({
             url: DOMAIN+'selectUser',
+            data: param,
+            method:'POST',
+            header: {
+              'content-type': 'application/json'
+              }
+        }).then(
+            res=>resolve(res)
+        ).catch(
+            res=>reject(res)
+        );
+    }) 
+}
+
+
+export const templeteMessege=function(param){
+    return new Promise((resolve,reject)=>{
+        return wepy.request({
+            url: DOMAIN+'templeteMessege',
             data: param,
             method:'POST',
             header: {

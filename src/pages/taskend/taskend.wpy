@@ -234,7 +234,7 @@
                        <view>
                          {{item.task_price}}￥
                        </view>
-              
+                       
                    </view>
 
                     <view class="minepublish_wait_ctr">
@@ -330,12 +330,13 @@
         this.is_loading=true;
            let page=this.publishpage+1;
              let res= await selectTaskMinePublish({openid:openid,page:page,size:8})
-        
+                  
                this.is_loading=false;
                this.$apply();
              if(res.statusCode===200){
                if(res.data.length>0){
                   this.taskData=this.taskData.concat(res.data);
+                  
                   this.publishpage=page;
                   this.$apply();
                }else{

@@ -82,7 +82,7 @@
                        <view>
                          {{item.task_price}}￥
                        </view>
-              
+                       
                    </view>
 
                     <view class="minepublish_wait_ctr">

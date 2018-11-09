@@ -98,7 +98,9 @@
              <view wx:if="{{ismine}}">
                 收货人手机号： {{consignee_mobile}}
              </view> 
-        
+              <view wx:if="{{ismine}}">
+                快递地址： {{taskAddr}}
+             </view> 
            <view>
               发布时间：  {{taskdata.create_time}}
           </view> 
@@ -108,11 +110,18 @@
          
        </view>
        <view  wx:if="{{ismine}}" class="footer footer_mine">
-         <view class="footer_end"  @tap='endTask'>完成任务</view>
+         <form bind:submit="endTaskSubmit" report-submit="true">
+             <view class="footer_end"  @tap='endTask'>完成任务</view>
+          </form>
+         <form bind:submit="cancelTaskSubmit" report-submit="true"> 
           <view class="footer_cancel" @tap='cancelTask'>取消任务</view>
+          </form>
        </view>
        <view wx:else class="footer">
-         <view class="footer_take" @tap="receiveTask('{{taskdata.user_id}}','{{taskdata.id}}')">接单</view>
+          <form bind:submit="receiveTaskSubmit" report-submit="true">
+            <button class="footer_take" formType="submit" @tap="receiveTask('{{taskdata.user_id}}','{{taskdata.id}}')">接单</button>
+         </form>  
+        
        </view>
        
       <van-toast id="van-toast" />
@@ -125,7 +134,7 @@
   import {OPENID} from '../../config/common';
   import Toast from '../../miniprogram_npm/vant-weapp/toast/toast';
  import {saveReceive,getTaskById,updateReceiveDelete,updateReceiveEnd} from '../../api/task'
-  import {selectUser} from '../../api/user'
+  import {selectUser,templeteMessege,getAceessToken} from '../../api/user'
   import {selectAddress} from '../../api/address'
   export default class TaskInfo extends wepy.page {
     config = {
@@ -142,6 +151,7 @@
     taskdata:{},
     nickName:'',
     address:'',
+    taskAddr:'',
     consignee_name:"",
     consignee_mobile:"",
     receiveId:''
@@ -170,6 +180,7 @@
             if(res.statusCode===200&&res.data.id){
                 this.taskdata=res.data;
                 this.nickName=res.data.nick_name;
+                 this.taskAddr=res.data.task_addr;
                 this.address=res.data.address;
                 this.consignee_name=res.data.consignee_name;
                  this.consignee_mobile=res.data.consignee_mobile;
@@ -195,9 +206,8 @@
          let res=await selectUser({id:userId});
         
         if(res.statusCode===200&&res.data.id){
-           this.setData({
-                nickName:res.data.nick_name
-              })
+           this.nickName=res.data.nick_name;
+           this.$apply();
         }
        //发布人地址信息
        let resAddress=await   selectAddress({id:param.address_id});
@@ -205,9 +215,8 @@
           if(resAddress.statusCode===200&&resAddress.data.id){
             let data=resAddress.data;
             let address=data.branch_courts+" "+data.department_name+" "+data.specific_address;
-              this.setData({
-                address:address
-              })
+             this.address=address;
+               this.$apply();
       
         }
          wepy.hideLoading()
@@ -225,7 +234,6 @@
     methods={
       //接单
       async receiveTask(userId,taskId){
-        
               wepy.showLoading({
           title:'加载中',
            mask:true
@@ -263,6 +271,20 @@
            }else{
             Toast("错误")
           }
+       },
+
+       receiveTaskSubmit(e){
+         this.methods.tempMessage(e.detail.formId,this.taskdata.id,1)
+       },
+       endTaskSubmit(e){
+         this.methods.tempMessage(e.detail.formId,this.taskdata.id,2)
+       },
+       cancelTaskSubmit(e){
+          this.methods.tempMessage(e.detail.formId,this.taskdata.id,3)
+       },
+      async tempMessage(formId,taskId,type){
+         let res=await getAceessToken()
+         let res1=await templeteMessege({formId:formId,taskId:taskId,type:type,token:res.data.access_token})
        }
     }
   }

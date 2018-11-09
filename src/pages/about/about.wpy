@@ -1,0 +1,38 @@
+<style lang="less">
+.container{
+  height: 100%;
+  background: #fff;
+}
+.contact{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px
+}
+</style>
+<template>
+  <view class="container">
+    <view class="contact">
+        联系方式 qq-1160809039
+     </view>  
+      
+    
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+
+  export default class About extends wepy.page {
+    config = {
+    
+
+    }
+   
+
+   
+  }
+</script>

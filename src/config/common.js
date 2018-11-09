@@ -1,6 +1,6 @@
 
 
-export const DOMAIN="https://api.weixin.shaozeming.top/public/"
+export const DOMAIN="https://express.weixin.shaozeming.top/public/"
 
 
 export const OPENID="OPENID"

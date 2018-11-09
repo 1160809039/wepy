@@ -11,6 +11,7 @@ export default class publishMixin extends wepy.mixin {
         taskName:'',
         taskWeight:'1',
         taskPrice:'1',
+        taskAddr:'',
         consigneeName:'',
         consigneeMobile:'',
         id:''
@@ -32,6 +33,9 @@ export default class publishMixin extends wepy.mixin {
      },
       consigneeNameInput(e){
         this.consigneeName=e.detail.value;
+     },
+     taskAddrInput(e){
+      this.taskAddr=e.detail.value;
      },
       consigneeMobileInput(e){
         this.consigneeMobile=e.detail.value;
@@ -66,6 +70,11 @@ export default class publishMixin extends wepy.mixin {
                 this.methods.notify("收货人不能为空")
               success= false;
            }
+
+           if(!this.taskAddr){
+            this.methods.notify("地址描述不能为空")
+            success= false;
+            }
             if(!this.consigneeMobile){
                 this.methods.notify("收货人手机号不能为空")
               success= false;
@@ -83,6 +92,7 @@ export default class publishMixin extends wepy.mixin {
                   let param={};
                   param.taskName=this.taskName;
                   param.taskWeight=this.taskWeight;
+                  param.taskAddr=this.taskAddr;
                   param.taskPrice=this.taskPrice;
                   param.schoolId=school.id;
                   param.openid=openid;
@@ -97,7 +107,7 @@ export default class publishMixin extends wepy.mixin {
                     if(res.statusCode===200&&res.data.id){
                         wepy.navigateBack();
                     }else{
-                      this.methods.notify("发布失败")
+                      this.methods.notify("更改失败")
                     }
                     
                   }else{
@@ -149,16 +159,18 @@ if(addressId){
         let res=await getTaskById({taskId:this.id});
    
        if(res.statusCode===200&&res.data.id){
+        
             this.taskName=res.data.task_name;
             this.taskWeight=res.data.task_weight;
+            this.taskAddr=res.data.task_addr;
             this.taskPrice=res.data.task_price;
             this.addressId=res.data.address_id;
             this.consigneeName=res.data.consignee_name;
              this.consigneeMobile=res.data.consignee_mobile;
             this.address=res.data.specific_address;
             this.$apply();
-             console.log("onLoad")
-            console.log(this.addressId)
+             
+            console.log(this.taskAddr)
      }
     }else{
         //显示默认地址

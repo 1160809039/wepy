@@ -37,8 +37,11 @@ export default class extends wepy.app {
       'pages/minepublish/minepublish',
       'pages/publishedit/publishedit',
       'pages/login/login',
-      'pages/taskend/taskend'
-    
+      'pages/taskend/taskend',
+      'pages/about/about'
+    ],
+    navigateToMiniProgramAppIdList: [
+    "wx769534252da8f614"
     ],
     window: {
       backgroundTextStyle: 'light',

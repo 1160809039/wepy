@@ -21,6 +21,10 @@
           收货地址
            <Text class="fa fa-angle-right"/>
        </view>
+         <view class="person_task" bindtap="toAbout">
+          关于
+           <Text class="fa fa-angle-right"/>
+       </view>
    </view>  
  
   </view>

@@ -1,7 +1,6 @@
 
   <view class="container">
-  
-             
+     
       <view class="task_school" bindtap="toSelectSchool">
           {{school.text}}
           <Text class="fa fa-exchange"/>

@@ -71,6 +71,12 @@ form{
           <input  bindinput="taskWeightInput" type="number" value="1" /> KG
          </view> 
       </view>
+        <view class="publish_num">
+        <span>地址描述</span> 
+         <view class="publish_num_input"> 
+          <input  bindinput="taskAddrInput" type="text" value="" /> 
+         </view> 
+      </view>
        
 
        <view class="separator_line">

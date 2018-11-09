@@ -92,7 +92,9 @@
                        <view>
                           {{taskdata.task_price}}￥
                        </view>
-              
+                      <view>
+                         {{taskdata.task_addr}}
+                       </view>
                    </view>
 
                     <view class="minepublish_wait_ctr" wx:if="{{taskdata.state==0}}">

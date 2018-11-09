@@ -59,6 +59,10 @@
           收货地址
            <Text class="fa fa-angle-right"></Text>
        </view>
+         <view class="person_task"  @tap="toAbout">
+          关于
+           <Text class="fa fa-angle-right"></Text>
+       </view>
    </view>  
  
   </view>
@@ -96,6 +100,11 @@
            toTaskEnd(){
                wepy.navigateTo({
               url:'/pages/taskend/taskend'
+            })
+          },
+          toAbout(){
+                wepy.navigateTo({
+              url:'/pages/about/about'
             })
           }
      }

@@ -54,8 +54,7 @@
 </style>
 <template>
   <view class="container">
-  
-             
+     
       <view class="task_school" @tap="toSelectSchool">
           {{school.text}}
           <Text class="fa fa-exchange"></Text>
@@ -120,6 +119,7 @@
   import TaskBar from '../../components/taskbar/TaskBar';
   import MineTaskBar from '../../components/minetaskbar/MineTaskBar';
   import {taskList,selectReceive} from '../../api/task';
+  import {getAceessToken} from '../../api/user';
   import {SCHOOL,OPENID} from '../../config/common';
   import Toast from '../../miniprogram_npm/vant-weapp/toast/toast';
  import {SETPAGE} from '../../store/types/index'
@@ -221,6 +221,41 @@
     }
 
     methods={
+      async  testSubmit(e){
+      let openid=wepy.getStorageSync(OPENID)
+            let res= await  getAceessToken()
+              let url='https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token='+res.data.access_token
+              console.log(e)
+let _jsonData = {
+      access_token: res.data.access_token,
+      touser: openid,
+      template_id: '2JQuvRKQc2wuI8QpjEKZFId3qIBQrWlkiCrrdGXFUvs',
+      form_id: e.detail.formId,
+      page: "pages/index/index",
+      data: {
+        "keyword1": { "value": "测试数据一", "color": "#173177" },
+        "keyword2": { "value": "测试数据二", "color": "#173177" },
+        "keyword3": { "value": "测试数据三", "color": "#173177" },
+      }
+    }
+
+             wx.request({
+        url: url,
+        data: _jsonData,
+        method: 'post',
+        success: function (res) {
+          console.log(res)
+        },
+        fail: function (err) {
+          console.log('request fail ', err);
+        },
+        complete: function (res) {
+          console.log("request completed!");
+        }
+
+ })
+
+      },
       toSelectSchool(){
         wepy.navigateTo({
           url:'/pages/school/school'
